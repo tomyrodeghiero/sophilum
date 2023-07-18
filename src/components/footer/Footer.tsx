@@ -31,7 +31,7 @@ const Footer = () => {
           <p className="text-gray-500 mb-8">Ayuda</p>
           <div className="flex flex-col gap-8">
             <Link href="/">Contacto</Link>
-            <Link href="/shop">Términos y Condiciones</Link>
+            <Link href="/terms-of-service">Términos y Condiciones</Link>
           </div>
         </div>
 
