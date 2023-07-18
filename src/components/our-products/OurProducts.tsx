@@ -55,7 +55,7 @@ const OurProducts = () => {
   ];
 
   return (
-    <div className="bg-white w-full pT-8 px-6 lg:px-24">
+    <div className="bg-white w-full py-8 px-6 lg:px-24">
       <h3 className="text-stone-700 text-3xl font-semibold text-center mb-6">
         Nuestros Productos
       </h3>

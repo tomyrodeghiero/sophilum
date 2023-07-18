@@ -1,5 +1,6 @@
 import SendButton from "@/components/buttons/SendButton";
 import Features from "@/components/features/Features";
+import HeaderBackground from "@/components/header-background/HeaderBackground";
 import TextInput from "@/components/text-input/TextInput";
 import { LOCATION, OFFICE_HOURS, PHONE } from "@/utils/assets/icons/icons";
 import {
@@ -12,22 +13,12 @@ import React from "react";
 const ContactPage = () => {
   return (
     <div>
-      <div className="relative w-screen h-72">
-        <Image src={BACKGROUND} layout="fill" quality={100} alt="Background" />
-
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
-          <div className="flex flex-col items-center">
-            <Image
-              src={SOPHILUM_LOGOTYPE_BACKGROUND}
-              alt="Logo"
-              width={80}
-              height={80}
-            />
-            <h1 className="-mt-2 text-3xl font-medium">Contacto</h1>
-            <p className="text-lg mt-1">Inicio - Contacto</p>
-          </div>
-        </div>
-      </div>
+      <HeaderBackground
+        background={BACKGROUND}
+        logo={SOPHILUM_LOGOTYPE_BACKGROUND}
+        title="Contacto"
+        subtitle="Inicio - Contacto"
+      />
 
       <div className="px-24 py-8">
         <div className="flex flex-col items-center">
