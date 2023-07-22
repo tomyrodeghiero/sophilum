@@ -12,14 +12,16 @@ export default function Navbar() {
 
       <div className="space-x-16">
         <Link href="/">Inicio</Link>
-        <Link href="/tienda">Tienda</Link>
+        <Link href="/shop">Tienda</Link>
         <Link href="/about">Nosotros</Link>
         <Link href="/contact">Contacto</Link>
       </div>
 
       <div className="flex space-x-8">
         <Image src={SEARCH} alt="Search" width={30} height={30} />
-        <Image src={SHOPPING_CART} alt="Cart" width={30} height={30} />
+        <Link href="/cart">
+          <Image src={SHOPPING_CART} alt="Cart" width={30} height={30} />
+        </Link>
         <Image src={SPAIN} alt="Spanish Flag" width={30} height={30} />
       </div>
     </nav>

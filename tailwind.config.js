@@ -20,6 +20,7 @@ module.exports = {
         },
         gray: {
           100: "#F4F5F7",
+          300: "#D9D9D9",
           400: "#D4D4D4",
           500: "#9F9F9F",
           600: "#898989",
@@ -27,6 +28,9 @@ module.exports = {
         },
         yellow: {
           600: "#B88E2F",
+        },
+        rose: {
+          300: "#F9F1E7",
         },
       },
       width: {
