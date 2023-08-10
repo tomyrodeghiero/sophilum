@@ -15,11 +15,11 @@ const TermsOfServicePage = () => {
         subtitle="Inicio - Términos y Condiciones"
       />
 
-      <div className="flex flex-col text-black pt-5 lg:py-16 lg:px-40">
-        <h1 className="text-3xl font-medium lg:text-center">
+      <div className="flex flex-col text-black p-4 lg:py-16 lg:px-40">
+        <h1 className="text-2xl font-medium lg:text-3xl lg:text-center mb-5">
           Garantías de Nuestros Productos
         </h1>
-        <p className="text-[0.9rem] mt-5 lg:text-base">
+        <p className="text-sm mt-2 lg:text-base mb-5">
           Duis rutrum dictum libero quis rutrum. Etiam sed neque aliquam,
           sollicitudin ante a, gravida arcu. Nam fringilla molestie velit, eget
           pellentesque risus scelerisque a. Nam ac urna maximus, tempor magna
@@ -27,8 +27,8 @@ const TermsOfServicePage = () => {
           lacus, ac sodales lectus placerat quis.
         </p>
 
-        <h3 className="text-2xl mt-10">Seguridad</h3>
-        <p className="mt-3 mb-5">
+        <h3 className="text-xl mt-6 lg:text-2xl mb-3">Seguridad</h3>
+        <p className="text-sm lg:text-base mb-5">
           Duis rutrum dictum libero quis rutrum. Etiam sed neque aliquam,
           sollicitudin ante a, gravida arcu. Nam fringilla molestie velit, eget
           pellentesque risus scelerisque. Duis rutrum dictum libero quis rutrum.

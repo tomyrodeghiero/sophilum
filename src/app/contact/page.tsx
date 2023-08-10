@@ -20,20 +20,20 @@ const ContactPage = () => {
         subtitle="Inicio - Contacto"
       />
 
-      <div className="px-24 py-8">
+      <div className="px-8 py-8 lg:px-48">
         <div className="flex flex-col items-center">
           <h2 className="text-center font-medium text-2xl">
             Ponte en Contacto con Nosotros
           </h2>
-          <p className="text-center w-[42rem] text-sm text-gray-500 mt-2">
+          <p className="text-center lg:w-[42rem] text-sm text-gray-500 mt-2">
             Para más información sobre nuestros productos y servicios, no dudes
             en enviarnos un WhatsApp. Nuestro personal siempre estará allí para
             ayudarte. ¡No lo dudes!
           </p>
         </div>
 
-        <div className="flex py-12 px-40 w-full gap-32">
-          <div className="flex flex-col gap-8 flex-shrink-0">
+        <div className="flex flex-col lg:flex-row py-12 gap-6 lg:gap-32">
+          <div className="flex flex-col gap-8 lg:flex-shrink-0">
             <div className="flex gap-4 items-start">
               <Image src={LOCATION} alt="Logo" width={25} height={25} />
               <div className="flex flex-col text-sm">

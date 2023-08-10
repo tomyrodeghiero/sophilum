@@ -8,8 +8,8 @@ import React from "react";
 
 const Features = () => {
   return (
-    <div className="flex items-center py-20 px-10 bg-orange-100 justify-between">
-      <div className="flex items-center gap-4">
+    <div className="flex flex-col lg:flex-row items-center py-8 lg:py-20 px-10 bg-orange-100 justify-between">
+      <div className="flex flex-col lg:flex-row items-center gap-4 mb-10 lg:mb-0 text-center lg:text-left">
         <Image src={HIGH_QUALITY} alt="Logo" width={75} height={75} />
         <div className="flex flex-col gap-1">
           <h2 className="font-medium text-2xl">Alta Calidad</h2>
@@ -19,7 +19,7 @@ const Features = () => {
         </div>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex flex-col lg:flex-row items-center gap-4 mb-5 lg:mb-0 text-center lg:text-left">
         <Image src={WARRANTY} alt="Logo" width={75} height={75} />
         <div className="flex flex-col gap-1">
           <h2 className="font-medium text-2xl">Garantía</h2>
@@ -27,7 +27,7 @@ const Features = () => {
         </div>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex flex-col lg:flex-row items-center gap-4 mb-10 lg:mb-0 text-center lg:text-left">
         <Image src={FREE_SHIPPING} alt="Logo" width={75} height={75} />
         <div className="flex flex-col gap-1">
           <h2 className="font-medium text-2xl">Envío Gratis</h2>
@@ -37,7 +37,7 @@ const Features = () => {
         </div>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex flex-col lg:flex-row items-center gap-4 text-center lg:text-left">
         <Image src={FREE_SHIPPING} alt="Logo" width={75} height={75} />
         <div className="flex flex-col gap-1">
           <h2 className="font-medium text-2xl">Soporte de Confianza</h2>

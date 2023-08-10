@@ -27,6 +27,16 @@ export default function Navbar() {
     setIsOpen(!isOpen);
   };
 
+  const handleLinkClick = (e: any, href: string) => {
+    e.preventDefault();
+
+    if (isMobile) {
+      setIsOpen(false);
+    }
+
+    router.push(href);
+  };
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       window.addEventListener("resize", () => {
@@ -86,13 +96,12 @@ export default function Navbar() {
             <div className="my-8">
               <div className="flex justify-between">
                 <h1 className="text-xl mb-6">Navegación</h1>
-
-                {/* <LocaleSwitcher /> */}
+                <img className="h-6 cursor-pointer" src={SPAIN} alt="Spain" />
               </div>
               <div className="flex flex-col">
-                <Link
-                  href="/"
+                <div
                   className="flex justify-between border-b border-gray-400 py-7 items-center"
+                  onClick={(event) => handleLinkClick(event, "/")}
                 >
                   <div className="flex gap-4">
                     <img className="h-6 cursor-pointer" src={HOME} alt="Home" />
@@ -103,10 +112,10 @@ export default function Navbar() {
                     src={DROP_RIGHT}
                     alt="Drop right"
                   />
-                </Link>
-                <Link
-                  href="/shop"
+                </div>
+                <div
                   className="flex justify-between border-b border-gray-400 py-7 items-center"
+                  onClick={(event) => handleLinkClick(event, "/shop")}
                 >
                   <div className="flex gap-4">
                     <img
@@ -121,9 +130,10 @@ export default function Navbar() {
                     src={DROP_RIGHT}
                     alt="Drop right"
                   />
-                </Link>
-                <Link
-                  href="/about"
+                </div>
+
+                <div
+                  onClick={(event) => handleLinkClick(event, "/about")}
                   className="flex justify-between border-b border-gray-400 py-7 items-center"
                 >
                   <div className="flex gap-4">
@@ -139,13 +149,13 @@ export default function Navbar() {
                     src={DROP_RIGHT}
                     alt="Drop right"
                   />
-                </Link>
+                </div>
               </div>
             </div>
           </div>
 
           <button
-            onClick={() => router.push("/contact")}
+            onClick={(e) => handleLinkClick(e, "/contact")}
             className="bg-white border py-3 text-[0.85rem] font-medium px-10 border-black rounded mt-12 uppercase"
           >
             Contacto
