@@ -8,7 +8,7 @@ import React from "react";
 
 const Categories = () => {
   return (
-    <div className="bg-white w-full pt-8 px-24">
+    <div className="bg-white w-full pt-8 px-4 lg:px-24">
       <h3 className="text-stone-700 text-2xl font-semibold text-center">
         Explora Nuestra Variedad de Iluminación
       </h3>

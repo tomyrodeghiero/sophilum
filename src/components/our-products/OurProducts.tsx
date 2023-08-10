@@ -55,13 +55,13 @@ const OurProducts = () => {
   ];
 
   return (
-    <div className="bg-white w-full py-8 px-6 lg:px-24">
+    <div className="bg-white w-full pt-8 px-4 lg:px-24">
       <h3 className="text-stone-700 text-3xl font-semibold text-center mb-6">
         Nuestros Productos
       </h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {products.map((product, index) => (
-          <div key={index} className="overflow-hidden h-90 w-60 md:w-72">
+          <div key={index} className="overflow-hidden h-full w-full">
             <img
               alt="product"
               src={product.img}

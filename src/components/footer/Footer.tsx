@@ -1,14 +1,12 @@
 import { ARROW_RIGHT, FACEBOOK, INSTAGRAM } from "@/utils/assets/icons/icons";
 import React from "react";
-
-// import next/link
 import Link from "next/link";
 
 const Footer = () => {
   return (
     <footer className="border-t border-gray-400">
-      <div className="mx-24 border-b border-gray-400 flex justify-between py-10">
-        <div>
+      <div className="mx-4 md:mx-24 border-b border-gray-400 flex flex-col md:flex-row justify-between py-10">
+        <div className="mb-8 md:mb-0">
           <h2 className="font-semibold text-2xl mb-8">Sophilum.</h2>
 
           <div className="flex flex-col gap-1 text-gray-500">
@@ -18,28 +16,37 @@ const Footer = () => {
           </div>
         </div>
 
-        <div>
-          <p className="text-gray-500 mb-8">Enlaces</p>
-          <div className="flex flex-col gap-8">
-            <Link href="/">Inicio</Link>
-            <Link href="/shop">Tienda</Link>
-            <Link href="/about">Nosotros</Link>
+        <div className="flex w-full lg:w-1/2 lg:justify-evenly gap-8 lg:flex">
+          <div className="w-1/2 md:w-auto">
+            <p className="text-gray-500 mb-8">Enlaces</p>
+            <div className="flex flex-col gap-8">
+              <Link href="/">Inicio</Link>
+              <Link href="/shop">Tienda</Link>
+              <Link href="/about">Nosotros</Link>
+            </div>
+          </div>
+
+          <div className="w-1/2 md:w-auto mb-8 md:mb-0">
+            <p className="text-gray-500 mb-8">Ayuda</p>
+            <div className="flex flex-col gap-8">
+              <Link href="/">Contacto</Link>
+              <Link href="/terms-of-service">Términos y Condiciones</Link>
+            </div>
           </div>
         </div>
 
         <div>
-          <p className="text-gray-500 mb-8">Ayuda</p>
-          <div className="flex flex-col gap-8">
-            <Link href="/">Contacto</Link>
-            <Link href="/terms-of-service">Términos y Condiciones</Link>
-          </div>
-        </div>
+          <Link
+            href="/shop"
+            className="flex mt-8 lg:mt-0 justify-between mb-8 border-b border-black pb-2 gap-8 items-center"
+          >
+            <p className="text-gray-500">
+              Últimas Novedades y Ofertas Exclusivas
+            </p>
 
-        <div>
-          <p className="text-gray-500 mb-8 border-b border-black">
-            Últimas Novedades y Ofertas Exclusivas
-          </p>
-          <div className="flex gap-4 justify-end">
+            <img className="h-2" src={ARROW_RIGHT} alt="Icon 2" />
+          </Link>
+          <div className="flex gap-4 justify-center md:justify-end">
             <Link href="/">
               <img className="hover-lift h-5" src={FACEBOOK} alt="Icon 2" />
             </Link>
@@ -50,13 +57,15 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="mx-24 my-5">
-        <div className=" text-center md:text-left mb-6 md:mb-0 order-2 md:order-1">
-          <p className="text-center md:text-left mb-6 md:mb-0 order-2 md:order-1">
+      <div className="mx-4 md:mx-24 my-5">
+        <div className="mb-8">
+          <p className="inline-flex flex-col md:flex-row items-start md:items-center">
             <span className="font-medium cursor-default">
               © 2019 - 2023 Sophilum, Iluminación Creativa.
             </span>
-            &nbsp; Todos los derechos reservados.
+            <span className="md:ml-2 mt-2 md:mt-0">
+              Todos los derechos reservados.
+            </span>
           </p>
         </div>
 
