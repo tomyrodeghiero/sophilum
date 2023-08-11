@@ -34,3 +34,25 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Navbar */
+/* styles.css or your global stylesheet */
+.navlink {
+  position: relative;
+  overflow: hidden;
+}
+
+.navlink::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background-color: #ffca0a;
+  transition: width 0.3s ease;
+}
+
+.navlink:hover::before {
+  width: 100%;
+}

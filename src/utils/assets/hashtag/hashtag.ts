@@ -1,0 +1,9 @@
+export const HASHTAG_01 = "/assets/hashtag/hashtag-01.png";
+export const HASHTAG_02 = "/assets/hashtag/hashtag-02.png";
+export const HASHTAG_03 = "/assets/hashtag/hashtag-03.png";
+export const HASHTAG_04 = "/assets/hashtag/hashtag-04.png";
+export const HASHTAG_05 = "/assets/hashtag/hashtag-05.png";
+export const HASHTAG_06 = "/assets/hashtag/hashtag-06.png";
+export const HASHTAG_07 = "/assets/hashtag/hashtag-07.png";
+export const HASHTAG_08 = "/assets/hashtag/hashtag-08.png";
+export const HASHTAG_09 = "/assets/hashtag/hashtag-09.png";

@@ -25,7 +25,9 @@ const Categories = () => {
             height={350}
             className="rounded-lg"
           />
-          <p className="text-center text-xl font-medium mt-4">Comedor</p>
+          <p className="text-center text-lg lg:text-xl font-medium mt-4">
+            Comedor
+          </p>
         </div>
         <div className="rounded overflow-hidden flex flex-col justify-center items-center">
           <Image
@@ -35,7 +37,9 @@ const Categories = () => {
             height={350}
             className="rounded-lg"
           />
-          <p className="text-center text-xl font-medium mt-4">Living</p>
+          <p className="text-center text-lg lg:text-xl font-medium mt-4">
+            Living
+          </p>
         </div>
         <div className="rounded overflow-hidden flex flex-col justify-center items-center">
           <Image
@@ -45,7 +49,9 @@ const Categories = () => {
             height={350}
             className="rounded-lg"
           />
-          <p className="text-center text-xl font-medium mt-4">Dormitorio</p>
+          <p className="text-center text-lg lg:text-xl font-medium mt-4">
+            Dormitorio
+          </p>
         </div>
       </div>
     </div>

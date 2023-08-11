@@ -166,14 +166,22 @@ export default function Navbar() {
   return (
     <nav className="flex justify-between items-center px-16 py-8 bg-white">
       <Link href="/">
-        <Image src={SOPHILUM_LOGOTYPE} alt="Logo" width={120} height={120} />
+        <Image src={SOPHILUM_LOGOTYPE} alt="Logo" width={150} height={150} />
       </Link>
 
-      <div className="space-x-16">
-        <Link href="/">Inicio</Link>
-        <Link href="/shop">Tienda</Link>
-        <Link href="/about">Nosotros</Link>
-        <Link href="/contact">Contacto</Link>
+      <div className="space-x-16 font-medium text-lg">
+        <Link href="/" className="navlink">
+          Inicio
+        </Link>
+        <Link href="/shop" className="navlink">
+          Tienda
+        </Link>
+        <Link href="/about" className="navlink">
+          Nosotros
+        </Link>
+        <Link href="/contact" className="navlink">
+          Contacto
+        </Link>
       </div>
 
       <div className="flex space-x-8">

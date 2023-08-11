@@ -16,6 +16,8 @@ module.exports = {
           900: "#255849",
         },
         stone: {
+          300: "#616161",
+          500: "#3A3A3A",
           700: "#333333",
         },
         gray: {
@@ -27,6 +29,7 @@ module.exports = {
           700: "#707070",
         },
         yellow: {
+          400: "#ffca0a",
           600: "#B88E2F",
         },
         rose: {
@@ -34,7 +37,7 @@ module.exports = {
         },
       },
       width: {
-        custom: "100rem",
+        custom: "100vw",
       },
       height: {
         custom: "7.5rem",
