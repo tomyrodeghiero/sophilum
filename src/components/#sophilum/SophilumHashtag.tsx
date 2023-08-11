@@ -14,7 +14,7 @@ import {
 
 const SophilumHashtag = () => {
   return (
-    <div className="relative bg-white w-full pt-8 pb-32">
+    <div className="hidden lg:block relative bg-white w-full pt-8 pb-32">
       <h2 className="text-stone-300 text-lg font-semibold text-center">
         Comparte tus iluminaciones con nosotros
       </h2>
