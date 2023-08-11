@@ -57,7 +57,7 @@ export default function Navbar() {
 
         {!isOpen && (
           <div className="flex gap-4 items-center">
-            <Link href="/shop">
+            <Link href="/cart">
               <img className="h-5" src={SHOPPING_CART} alt="Shopping" />
             </Link>
             <img className="h-4" src={MENU} alt="Menu" onClick={toggleMenu} />
