@@ -93,7 +93,21 @@ export const ProductsFilterSidebar = ({
           label="Comprar por"
         />
         <FilterDropdown
-          options={["Categoría 1", "Categoría 2", "Categoría 3"]}
+          options={[
+            "Lámparas colgantes",
+            "Lámparas de techo",
+            "Lámparas de pie",
+            "Lámparas de mesa",
+            "Lámparas de pared",
+            "Luces empotradas",
+            "Luces de riel",
+            "Tiras LED",
+            "Lámparas con ventilador",
+            "Luces exteriores",
+            "Lámparas decorativas",
+            "Luz nocturna",
+            "Lámparas con sensor de movimiento",
+          ]}
           onFilter={onSortByCateogory}
           label="Ordenar por"
         />
