@@ -1,5 +1,5 @@
 // Information
-export const PHONE_NUMBER = "5493586020441";
+export const PHONE_NUMBER = "5493584296532";
 
 // Socials Media
 export const INSTAGRAM_URL =

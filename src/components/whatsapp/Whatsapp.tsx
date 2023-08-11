@@ -6,7 +6,7 @@ import React from "react";
 
 const WhatsApp = () => {
   const message =
-    "Hola, estoy interesado en una genial iluminación. ¿Podrían darme más información?";
+    "Hola, estoy interesado en un producto genial iluminación. ¿Podrían darme más información?";
 
   const handleClick = () => {
     window.open(

@@ -1,6 +1,7 @@
 import { ARROW_RIGHT, FACEBOOK, INSTAGRAM } from "@/utils/assets/icons/icons";
 import React from "react";
 import Link from "next/link";
+import { INSTAGRAM_URL } from "@/utils/constants/constants";
 
 const Footer = () => {
   return (
@@ -60,7 +61,7 @@ const Footer = () => {
             <Link href="/">
               <img className="hover-lift h-5" src={FACEBOOK} alt="Icon 2" />
             </Link>
-            <Link href="/shop">
+            <Link href={INSTAGRAM_URL} target="_blank">
               <img className="hover-lift h-5" src={INSTAGRAM} alt="Icon 2" />
             </Link>
           </div>

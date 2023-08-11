@@ -8,18 +8,9 @@ import {
   CART_03,
   CART_04,
 } from "@/utils/assets/cart-example/cart-example";
-import {
-  DROP_DOWN,
-  DROP_RIGHT,
-  FACEBOOK,
-  INSTAGRAM,
-  STARS,
-} from "@/utils/assets/icons/icons";
-import { INSTAGRAM_URL } from "@/utils/constants/constants";
+import { DROP_DOWN, DROP_RIGHT, STARS } from "@/utils/assets/icons/icons";
 import { formatPriceARS } from "@/utils/functions/functions";
-import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
 import { Carousel } from "react-responsive-carousel";
 import Image from "next/image";
 
