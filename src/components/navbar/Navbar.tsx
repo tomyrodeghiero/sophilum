@@ -55,16 +55,14 @@ export default function Navbar() {
           <img className="h-8" src={SOPHILUM_LOGOTYPE} alt="Sophilum" />
         </Link>
 
-        <div className="cursor-pointer">
-          {!isOpen && (
-            <div className="flex gap-4 items-center">
-              <Link href="/shop">
-                <img className="h-5" src={SHOPPING_CART} alt="Shopping" />
-              </Link>
-              <img className="h-4" src={MENU} alt="Menu" onClick={toggleMenu} />
-            </div>
-          )}
-        </div>
+        {!isOpen && (
+          <div className="flex gap-4 items-center">
+            <Link href="/shop">
+              <img className="h-5" src={SHOPPING_CART} alt="Shopping" />
+            </Link>
+            <img className="h-4" src={MENU} alt="Menu" onClick={toggleMenu} />
+          </div>
+        )}
 
         <div
           className={`fixed top-0 left-0 w-full h-full bg-white transition-transform transform ease-in-out duration-300 ${

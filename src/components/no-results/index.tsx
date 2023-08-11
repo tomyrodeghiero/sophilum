@@ -11,7 +11,7 @@ export const NoResults = ({ onEditSearch }: any) => (
     </p>
     <button
       onClick={onEditSearch}
-      className="bg-white border py-2 text-[0.85rem] font-medium px-8 border-black rounded mt-7 uppercase"
+      className="bg-white border py-2 mb-8 text-[0.85rem] font-medium px-8 border-black rounded mt-7 uppercase"
     >
       Editar Búsqueda
     </button>

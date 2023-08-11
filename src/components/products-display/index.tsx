@@ -6,17 +6,21 @@ export const ProductDisplay = ({ products, resetFilters }: any) => {
   return (
     <div className="w-full mt-5 lg:mt-0">
       {products.length > 0 ? (
-        <div className="grid grid-cols-2 md:grid-cols-2 w-full lg:grid-cols-3 gap-y-12 gap-5 lg:gap-20">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-10">
           {products.map((product: any, index: number) => (
-            <div key={index} className="overflow-hidden max-h-96 w-60 md:w-72">
-              <img
-                alt="product"
-                src={product.mainImageUrl}
-                className="w-full h-2/3 object-cover"
-              />
-              <div className="p-4 bg-gray-100">
-                <h3 className="text-xl font-medium">{product.name}</h3>
-                <p className="text-sm text-gray-600 mt-1">"Descripción"</p>
+            <div key={index} className="flex flex-col overflow-hidden bg-white">
+              <div className="flex-shrink-0">
+                <img
+                  alt="product"
+                  src={product.mainImageUrl}
+                  className="w-full h-48 object-cover lg:h-72"
+                />
+              </div>
+              <div className="flex-grow p-4 bg-gray-100 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-xl font-medium">{product.name}</h3>
+                  <p className="text-sm text-gray-600 mt-1">"Descripción"</p>
+                </div>
                 <p className="font-semibold mt-2">
                   {formatPriceARS(product.price)}
                 </p>

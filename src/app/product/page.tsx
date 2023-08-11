@@ -406,7 +406,7 @@ const ShopPage = () => {
               <img
                 src={product.image}
                 alt={product?.name}
-                className="object-cover h-48 w-full rounded"
+                className="object-cover h-48 w-full rounded-lg"
               />
               <h4 className="mt-4 w-full truncate">{product?.name}</h4>
               <p className="text-yellow-800 mt-1">${product.price}</p>

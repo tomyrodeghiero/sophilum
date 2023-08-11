@@ -83,7 +83,7 @@ export const ProductsFilterSidebar = ({
       >
         <img className="h-4" src={FILTER} alt="Filters" />
         <p className="text-yellow-800">
-          {isFiltersVisible ? "Ocultar Filtros" : "Filtros"}
+          {isFiltersVisible ? "Ocultar Filtros" : "Mostrar Filtros"}
         </p>
       </div>
       <div className={`${isFiltersVisible ? "" : "hidden lg:block"}`}>

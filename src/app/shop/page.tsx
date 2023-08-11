@@ -10,6 +10,8 @@ import { useSearchParams } from "next/navigation";
 import { ProductsFilterSidebar } from "@/components/products-filter-sidebar/ProductsFilterSidebar";
 import { ProductDisplay } from "@/components/products-display";
 import Features from "@/components/features/Features";
+import Image from "next/image";
+import { DROP_RIGHT } from "@/utils/assets/icons/icons";
 
 const ShopPage = () => {
   const searchParams = useSearchParams();
@@ -65,8 +67,20 @@ const ShopPage = () => {
     getProducts();
   }, []);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 10; // Cambia esto según tus necesidades
+
   useEffect(() => {
     let tempProducts = products;
+
+    const indexOfLastProduct = currentPage * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+    const currentProducts = tempProducts.slice(
+      indexOfFirstProduct,
+      indexOfLastProduct
+    );
+
+    setFilteredProducts(currentProducts);
 
     // Filter products on sale
     if (isOnSale) {
@@ -124,6 +138,7 @@ const ShopPage = () => {
     searchQuery,
     searchQueryParam,
     categoryQueryParam,
+    currentPage,
   ]);
 
   const resetFilters = () => {
@@ -135,6 +150,22 @@ const ShopPage = () => {
     setSearchQuery("");
   };
 
+  const nextPage = () => {
+    if (currentPage < Math.ceil(filteredProducts.length / productsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const path = "Inicio - Tienda";
+
+  const pathParts = path.split("-");
+
   if (isLoading) return null;
 
   return (
@@ -145,11 +176,20 @@ const ShopPage = () => {
         title="Tienda"
         subtitle="Inicio - Tienda"
       />
-      <div className="bg-rose-300 pt-6 pb-5 px-16 mt-[-7.5px] z-50 opacity-100">
-        <p className="text-gray-500 text-sm">Home - Shop - | Sofa</p>
+      <div className="bg-rose-300 pt-6 pb-5 px-5 lg:px-16 mt-[-7.5px] z-50 opacity-100">
+        <div className="flex gap-2">
+          {pathParts.map((part: string, index: number) => (
+            <React.Fragment key={index}>
+              <span className="text-gray-500 text-sm">{part.trim()}</span>
+              {index !== pathParts.length - 1 && (
+                <Image src={DROP_RIGHT} alt="Arrow" width={6} height={6} />
+              )}
+            </React.Fragment>
+          ))}
+        </div>
       </div>
 
-      <div className="flex flex-col text-black pt-5 lg:py-10 lg:px-40">
+      <div className="flex flex-col text-black pt-5 lg:py-10 px-5 lg:px-28">
         <h2 className="font-medium text-[1.5rem] my-5 mb-4">Tienda</h2>
         <div className="lg:flex gap-10">
           <ProductsFilterSidebar
@@ -164,10 +204,37 @@ const ShopPage = () => {
             onPriceChange={setPriceRange}
             onResetFilters={resetFilters}
           />
-          <ProductDisplay
-            resetFilters={resetFilters}
-            products={filteredProducts}
-          />
+
+          <div className="flex-col w-full">
+            <ProductDisplay
+              resetFilters={resetFilters}
+              products={filteredProducts}
+            />
+
+            {filteredProducts.length > 0 && (
+              <div className="flex justify-center my-8 lg:mb-0 w-full">
+                {[1, 2, 3].map((pageNumber) => (
+                  <button
+                    key={pageNumber}
+                    onClick={() => setCurrentPage(pageNumber)}
+                    className={`px-4 py-2 mx-2 rounded ${
+                      currentPage === pageNumber
+                        ? "bg-yellow-600 text-white"
+                        : "bg-gray-200"
+                    }`}
+                  >
+                    {pageNumber}
+                  </button>
+                ))}
+                <button
+                  onClick={nextPage}
+                  className="px-4 py-2 rounded mx-2 bg-gray-200"
+                >
+                  Siguiente
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
       <Features />
