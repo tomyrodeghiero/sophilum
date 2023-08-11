@@ -17,7 +17,7 @@ const Categories = () => {
       </h4>
 
       <div className="grid grid-cols-3 gap-4 my-5">
-        <div className="rounded overflow-hidden flex flex-col justify-center items-center">
+        <div className="rounded py-2 overflow-hidden flex flex-col justify-center items-center transform transition-transform duration-300 hover:scale-105 hover:shadow cursor-pointer">
           <Image
             src={IMAGE_01}
             alt="Imagen 1"
@@ -29,7 +29,7 @@ const Categories = () => {
             Comedor
           </p>
         </div>
-        <div className="rounded overflow-hidden flex flex-col justify-center items-center">
+        <div className="rounded py-2 overflow-hidden flex flex-col justify-center items-center transform transition-transform duration-300 hover:scale-105 hover:shadow cursor-pointer">
           <Image
             src={IMAGE_02}
             alt="Imagen 2"
@@ -41,7 +41,7 @@ const Categories = () => {
             Living
           </p>
         </div>
-        <div className="rounded overflow-hidden flex flex-col justify-center items-center">
+        <div className="rounded py-2 overflow-hidden flex flex-col justify-center items-center transform transition-transform duration-300 hover:scale-105 hover:shadow cursor-pointer">
           <Image
             src={IMAGE_03}
             alt="Imagen 3"

@@ -8,7 +8,11 @@ export const ProductDisplay = ({ products, resetFilters }: any) => {
       {products.length > 0 ? (
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-10">
           {products.map((product: any, index: number) => (
-            <div key={index} className="flex flex-col overflow-hidden bg-white">
+            <Link
+              href="/product"
+              key={index}
+              className="flex flex-col overflow-hidden bg-white"
+            >
               <div className="flex-shrink-0">
                 <img
                   alt="product"
@@ -25,7 +29,7 @@ export const ProductDisplay = ({ products, resetFilters }: any) => {
                   {formatPriceARS(product.price)}
                 </p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       ) : (

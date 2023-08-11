@@ -56,3 +56,122 @@ body {
 .navlink:hover::before {
   width: 100%;
 }
+
+/* Products management */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.formGroup input,
+.formGroup textarea {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.productCard {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.productImage img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.productInfo {
+  flex: 1;
+  margin-left: 20px;
+}
+
+.productActions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.productActions button {
+  margin-left: 10px;
+}
+
+.product-card.group:hover .product-tag {
+  opacity: 60%;
+}
+
+.product-tag {
+  transition: opacity 0.3s ease;
+  opacity: 0%;
+}
+
+/* Hashtag */
+.hashtag-img {
+  position: absolute;
+  transition: all 0.3s ease;
+  z-index: 1;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0);
+  border-radius: 0.25rem;
+}
+
+.hashtag-img:hover {
+  transform: translateY(-5px); /* Se eleva un poco */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); /* Sombra al hacer hover */
+  z-index: 10; /* Esto es para asegurar que la imagen en hover quede sobre las otras imágenes */
+}
+
+.hashtag-1 {
+  top: 0%;
+  left: -5%;
+  width: 15rem;
+}
+.hashtag-2 {
+  top: 15%;
+  left: 15%;
+  width: 20rem;
+}
+.hashtag-3 {
+  top: 5%;
+  left: 40%;
+  width: 20rem;
+}
+.hashtag-4 {
+  top: 37.5%;
+  left: 55%;
+  width: 20rem;
+}
+.hashtag-5 {
+  top: 5%;
+  right: -5%;
+  width: 20rem;
+}
+.hashtag-6 {
+  top: 55%;
+  left: -2.5%;
+  width: 20rem;
+}
+.hashtag-7 {
+  top: 60%;
+  left: 25%;
+  width: 20rem;
+}
+.hashtag-8 {
+  top: 70%;
+  left: 75%;
+  width: 20rem;
+}
+.hashtag-9 {
+  top: 40%;
+  left: 50%;
+  width: 20rem;
+}

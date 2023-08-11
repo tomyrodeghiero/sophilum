@@ -22,16 +22,70 @@ const SophilumHashtag = () => {
         #Sophilum
       </h3>
 
-      <div className="relative w-full">
-        <Image src={HASHTAG_01} alt="Hashtag 1" width={200} height={200} />
-        <Image src={HASHTAG_02} alt="Hashtag 2" width={200} height={200} />
-        <Image src={HASHTAG_03} alt="Hashtag 3" width={200} height={200} />
-        <Image src={HASHTAG_04} alt="Hashtag 4" width={200} height={200} />
-        <Image src={HASHTAG_05} alt="Hashtag 5" width={200} height={200} />
-        <Image src={HASHTAG_06} alt="Hashtag 6" width={200} height={200} />
-        <Image src={HASHTAG_07} alt="Hashtag 7" width={200} height={200} />
-        <Image src={HASHTAG_08} alt="Hashtag 8" width={200} height={200} />
-        <Image src={HASHTAG_09} alt="Hashtag 9" width={200} height={200} />
+      <div className="relative w-full h-[45rem]">
+        <Image
+          className="hashtag-img hashtag-1 rounded"
+          src={HASHTAG_01}
+          alt="Hashtag 1"
+          width={200}
+          height={200}
+        />
+        <Image
+          className="hashtag-img hashtag-2 rounded"
+          src={HASHTAG_02}
+          alt="Hashtag 2"
+          width={200}
+          height={200}
+        />
+        <Image
+          className="hashtag-img hashtag-3 rounded"
+          src={HASHTAG_03}
+          alt="Hashtag 3"
+          width={200}
+          height={200}
+        />
+        {/* <Image
+          className="hashtag-img hashtag-4 rounded"
+          src={HASHTAG_04}
+          alt="Hashtag 4"
+          width={200}
+          height={200}
+        /> */}
+        <Image
+          className="hashtag-img hashtag-5 rounded"
+          src={HASHTAG_05}
+          alt="Hashtag 5"
+          width={200}
+          height={200}
+        />
+        <Image
+          className="hashtag-img hashtag-6 rounded"
+          src={HASHTAG_06}
+          alt="Hashtag 6"
+          width={200}
+          height={200}
+        />
+        <Image
+          className="hashtag-img hashtag-7 rounded-lg"
+          src={HASHTAG_07}
+          alt="Hashtag 7"
+          width={200}
+          height={200}
+        />
+        <Image
+          className="hashtag-img hashtag-8 rounded"
+          src={HASHTAG_08}
+          alt="Hashtag 8"
+          width={200}
+          height={200}
+        />
+        <Image
+          className="hashtag-img hashtag-9 rounded"
+          src={HASHTAG_09}
+          alt="Hashtag 9"
+          width={200}
+          height={200}
+        />
       </div>
     </div>
   );

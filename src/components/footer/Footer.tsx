@@ -20,17 +20,27 @@ const Footer = () => {
           <div className="w-1/2 md:w-auto">
             <p className="text-gray-500 mb-8">Enlaces</p>
             <div className="flex flex-col gap-8">
-              <Link href="/">Inicio</Link>
-              <Link href="/shop">Tienda</Link>
-              <Link href="/about">Nosotros</Link>
+              <Link href="/">
+                <span className="navlink">Inicio</span>
+              </Link>
+              <Link href="/shop">
+                <span className="navlink">Tienda</span>
+              </Link>
+              <Link href="/about">
+                <span className="navlink">Nosotros</span>
+              </Link>
             </div>
           </div>
 
           <div className="w-1/2 md:w-auto mb-8 md:mb-0">
             <p className="text-gray-500 mb-8">Ayuda</p>
             <div className="flex flex-col gap-8">
-              <Link href="/">Contacto</Link>
-              <Link href="/terms-of-service">Términos y Condiciones</Link>
+              <Link href="/">
+                <span className="navlink">Contacto</span>
+              </Link>
+              <Link href="/terms-of-service">
+                <span className="navlink">Términos y Condiciones</span>
+              </Link>
             </div>
           </div>
         </div>
