@@ -1,13 +1,19 @@
+import { useState, useEffect } from "react";
+
 export const FormatText = ({ text, className }: any) => {
-  function removeHTMLText(html: any) {
-    var tmp = document.createElement("DIV");
-    tmp.innerHTML = html;
-    return tmp.textContent || tmp.innerText || "";
-  }
+  const [cleanedText, setCleanedText] = useState("");
 
-  const cleanedText = removeHTMLText(text);
+  useEffect(() => {
+    function removeHTMLText(html: string) {
+      var tmp = document.createElement("DIV");
+      tmp.innerHTML = html;
+      return tmp.textContent || tmp.innerText || "";
+    }
 
-  return cleanedText.split("\r\n").map((line: any, i: number) => (
+    setCleanedText(removeHTMLText(text));
+  }, [text]);
+
+  return cleanedText.split("\r\n").map((line: string, i: number) => (
     <p key={i} className={className}>
       {line}
     </p>
