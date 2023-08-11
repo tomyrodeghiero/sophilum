@@ -8,12 +8,20 @@ import {
   CART_03,
   CART_04,
 } from "@/utils/assets/cart-example/cart-example";
-import { FACEBOOK, INSTAGRAM, STARS } from "@/utils/assets/icons/icons";
+import {
+  DROP_DOWN,
+  DROP_RIGHT,
+  FACEBOOK,
+  INSTAGRAM,
+  STARS,
+} from "@/utils/assets/icons/icons";
 import { INSTAGRAM_URL } from "@/utils/constants/constants";
 import { formatPriceARS } from "@/utils/functions/functions";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
 import { Carousel } from "react-responsive-carousel";
+import Image from "next/image";
 
 const PRODUCTS = [
   {
@@ -52,12 +60,40 @@ const PRODUCTS = [
     id: 2,
     description: "Descripción 2",
   },
+  {
+    name: "Producto 1",
+    price: 100,
+    quantity: 2,
+    subtotal: 200,
+    image: CART_01,
+    id: 1,
+    description: "Descripción 1",
+  },
+  {
+    name: "Producto 1",
+    price: 100,
+    quantity: 2,
+    subtotal: 200,
+    image: CART_01,
+    id: 1,
+    description: "Descripción 1",
+  },
+  {
+    name: "Producto 1",
+    price: 100,
+    quantity: 2,
+    subtotal: 200,
+    image: CART_01,
+    id: 1,
+    description: "Descripción 1",
+  },
 ];
 
 const ShopPage = () => {
   const productID = {
     _id: 1,
     name: "Lámpara Viking",
+    description: "Lámpara Viking de madera",
     mainImageUrl: CART_01,
     category: "Sofas",
     price: 100,
@@ -83,20 +119,162 @@ const ShopPage = () => {
           carouselRef.current.scrollLeft = 0;
         }
       }
+    }, 200); // Velocidad de desplazamiento, ajústala a tu gusto
+
+    // Limpieza al desmontar
+    return () => clearInterval(interval);
+  }, []); // Dependencias vacías para que solo se ejecute una vez
+
+  const [descriptionOpen, setDescriptionOpen] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (carouselRef.current) {
+        carouselRef.current.scrollLeft += 1;
+
+        // Si hemos llegado al final del carrusel, volvemos al principio
+        if (
+          carouselRef.current.scrollLeft + carouselRef.current.offsetWidth >=
+          carouselRef.current.scrollWidth
+        ) {
+          carouselRef.current.scrollLeft = 0;
+        }
+      }
     }, 10); // Velocidad de desplazamiento, ajústala a tu gusto
 
     // Limpieza al desmontar
     return () => clearInterval(interval);
   }, []); // Dependencias vacías para que solo se ejecute una vez
 
+  const path = "Home - Shop - Sofa";
+
+  const pathParts = path.split("-");
+
   return (
     <div>
-      <div className="bg-rose-300 py-5 px-16">
-        <p className="text-gray-500 text-sm">Home - Shop - | Sofa</p>
+      <div className="bg-rose-300 py-5 px-5 lg:px-16">
+        <div className="flex gap-2">
+          {pathParts.map((part: string, index: number) => (
+            <React.Fragment key={index}>
+              <span className="text-gray-500 text-sm">{part.trim()}</span>
+              {index !== pathParts.length - 1 && (
+                <Image src={DROP_RIGHT} alt="Arrow" width={6} height={6} />
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
+
+      {/* Carousel on Mobile */}
+      <div className="block px-4 md:hidden">
+        <Carousel
+          className="mt-5"
+          showThumbs={false}
+          emulateTouch={true}
+          showArrows={false}
+          showStatus={false}
+        >
+          {[productID.mainImageUrl, ...productID.secondaryImageUrls].map(
+            (image: any, index: number) => (
+              <div key={index}>
+                <img
+                  src={image}
+                  alt={`product-image-${index}`}
+                  className="w-full object-cover h-[400px] rounded-lg"
+                />
+              </div>
+            )
+          )}
+        </Carousel>
+
+        <div className="flex justify-between mt-5">
+          <div>
+            <h1 className="text-2xl mb-2">{productID?.name}</h1>
+            <h2 className="text-yellow-800 mb-5">
+              {formatPriceARS(productID.price)}
+            </h2>
+          </div>
+
+          <div className="flex w-28 h-12 text-gray-700 justify-between rounded items-center gap-2 bg-gray-300 p-2">
+            <button
+              // onClick={decrement}
+              className="px-3 h-full rounded hover:bg-gray-400"
+            >
+              -
+            </button>
+            {/* <span className="w-8 text-center">{quantity}</span> */}
+            <span className="w-8 text-center">2</span>
+            <button
+              // onClick={increment}
+              className="px-3 h-full rounded hover:bg-gray-400"
+            >
+              +
+            </button>
+          </div>
+        </div>
+
+        <button
+          onClick={() => {
+            // addToCart(
+            //   productID._id,
+            //   productID.name,
+            //   productID.price,
+            //   productID.mainImageUrl,
+            //   quantity
+            // );
+            // setProductAdded(true);
+
+            // Usando react-toastify para notificar al usuario.
+            toast.success(
+              `El Producto ${productID.name} ha sido añadido a su carrito! 🛍️ 🎉`,
+              {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+              }
+            );
+          }}
+          className="bg-white hover:bg-black hover:text-white w-full border py-2 h-11 text-[0.85rem] font-medium px-10 border-black rounded uppercase"
+        >
+          Añadir al carrito
+        </button>
+
+        <FormatText
+          text={productID.briefDescription}
+          className="text-gray-700 my-7"
+        />
+
+        <div className="border-y border-gray-400 text-[1.1rem]">
+          <div
+            onClick={() => setDescriptionOpen(!descriptionOpen)}
+            className="cursor-pointer"
+          >
+            <div className="flex justify-between items-center">
+              <h2 className="py-4">Descripción</h2>
+              <img
+                src={DROP_DOWN}
+                alt={"Drop drop"}
+                className={`h-2 transform ${
+                  descriptionOpen ? "rotate-180" : ""
+                }`}
+              />
+            </div>
+
+            {descriptionOpen && (
+              <FormatText
+                text={productID.description}
+                className="text-gray-700 mb-3"
+              />
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Original layout on Desktop */}
-      <div className="hidden md:flex justify-between gap-4 my-8 px-24 lg:max-h-[70vh] relative">
+      <div className="hidden lg:flex justify-between gap-4 my-8 px-24 lg:max-h-[70vh] relative">
         <div className="flex flex-col space-y-4 hide-scrollbar scroll-container">
           {productID.secondaryImageUrls.map((image: any, index: number) => (
             <img
@@ -170,7 +348,7 @@ const ShopPage = () => {
         </div>
       </div>
 
-      <div className="flex w-full gap-8">
+      <div className="hidden lg:flex w-full gap-8">
         <div className="border-y py-8 border-gray-300">
           <div className="flex gap-14 justify-center mb-5">
             <button
@@ -215,28 +393,23 @@ const ShopPage = () => {
         </div>
       </div>
 
-      <div className="px-24">
+      <div className="lg:px-24 w-full">
         <h3 className="mt-10 text-center text-[1.7rem] font-medium">
           Productos Relacionados
         </h3>
         <div
           ref={carouselRef}
-          className="overflow-x-scroll flex gap-8 hide-scrollbar mt-5"
+          className="flex overflow-x-scroll gap-8 hide-scrollbar my-6"
         >
-          {PRODUCTS.map((product, index) => (
-            <div key={index} className="overflow-hidden h-90 w-60 md:w-72">
+          {PRODUCTS.map((product) => (
+            <div key={product.id} className="min-w-[200px]">
               <img
-                alt="product"
                 src={product.image}
-                className="w-full h-2/3 object-cover"
+                alt={product?.name}
+                className="object-cover h-48 w-full rounded"
               />
-              <div className="p-4 bg-gray-100">
-                <h3 className="text-xl font-medium">{product.name}</h3>
-                <p className="text-sm text-gray-600 mt-1">
-                  {product.description}
-                </p>
-                <p className="text-lg font-semibold mt-2">{product.price}</p>
-              </div>
+              <h4 className="mt-4 w-full truncate">{product?.name}</h4>
+              <p className="text-yellow-800 mt-1">${product.price}</p>
             </div>
           ))}
         </div>

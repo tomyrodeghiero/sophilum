@@ -24,3 +24,13 @@ body {
   border-radius: 50%;
   transition: transform 0.2s ease-in-out;
 }
+
+/* Scroll product */
+.hide-scrollbar::-webkit-scrollbar {
+  width: 0;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
