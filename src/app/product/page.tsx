@@ -13,6 +13,7 @@ import { formatPriceARS } from "@/utils/functions/functions";
 import React, { useEffect, useRef, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import Image from "next/image";
+import { toast } from "react-toastify";
 
 const PRODUCTS = [
   {
