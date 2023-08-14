@@ -72,7 +72,7 @@ const OurProducts = () => {
               <img
                 alt="product"
                 src={product.img}
-                className="h-48 lg:h-96 w-full object-cover rounded-lg"
+                className="h-48 lg:h-96 w-full object-cover"
               />
 
               <div className="product-tag absolute bottom-0 left-0 right-0 bg-gray-200 py-3 px-4 opacity-0 group-hover:opacity-60 flex items-center justify-center">

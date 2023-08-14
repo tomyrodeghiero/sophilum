@@ -12,6 +12,7 @@ import { ProductDisplay } from "@/components/products-display";
 import Features from "@/components/features/Features";
 import Image from "next/image";
 import { DROP_RIGHT } from "@/utils/assets/icons/icons";
+import Loader from "@/components/loader/Loader";
 
 const ShopPage = () => {
   const searchParams = useSearchParams();
@@ -166,8 +167,6 @@ const ShopPage = () => {
 
   const pathParts = path.split("-");
 
-  if (isLoading) return null;
-
   return (
     <div>
       <HeaderBackground
@@ -206,10 +205,14 @@ const ShopPage = () => {
           />
 
           <div className="flex-col w-full">
-            <ProductDisplay
-              resetFilters={resetFilters}
-              products={filteredProducts}
-            />
+            {isLoading ? (
+              <Loader />
+            ) : (
+              <ProductDisplay
+                resetFilters={resetFilters}
+                products={filteredProducts}
+              />
+            )}
 
             {filteredProducts.length > 0 && (
               <div className="flex justify-center my-8 lg:mb-0 w-full">

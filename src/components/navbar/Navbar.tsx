@@ -18,6 +18,20 @@ import { useRouter } from "next/navigation";
 export default function Navbar() {
   const router = useRouter();
 
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = (e: any) => {
+    e.preventDefault();
+    router.push(`/shop?search=${searchQuery}`);
+  };
+
+  const handleKeyDown = (e: any) => {
+    if (e.key === "Enter") {
+      handleSearch(e);
+    }
+  };
+
   const [isMobile, setMobile] = useState(
     typeof window !== "undefined" ? window.innerWidth < 768 : false
   );
@@ -185,12 +199,55 @@ export default function Navbar() {
       </div>
 
       <div className="flex space-x-8">
-        <Image src={SEARCH} alt="Search" width={30} height={30} />
+        <Image
+          className="cursor-pointer"
+          src={SEARCH}
+          alt="Search"
+          width={30}
+          height={30}
+          onClick={() => setSearchOpen(true)}
+        />
         <Link href="/cart">
           <Image src={SHOPPING_CART} alt="Cart" width={30} height={30} />
         </Link>
         <Image src={SPAIN} alt="Spanish Flag" width={30} height={30} />
       </div>
+
+      {searchOpen && (
+        <div className="fixed z-50 top-0 left-0 w-full h-full bg-black bg-opacity-50 transition-opacity duration-500 ease-in-out">
+          <div className="bg-white w-full py-8 px-10 flex justify-between items-center">
+            <Link href="/">
+              <img
+                className="h-10"
+                src={SOPHILUM_LOGOTYPE}
+                alt="Sophilum Logotype"
+              />
+            </Link>
+            <h5
+              className="text-lg hover:underline cursor-pointer"
+              onClick={() => setSearchOpen(false)}
+            >
+              Cerrar
+            </h5>
+          </div>
+          <div className="bg-white w-full top-0 py-8 px-10 flex gap-5 items-center">
+            <input
+              type="text"
+              className="w-4/5 border border-black p-3"
+              placeholder="Buscar"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={handleKeyDown}
+            />
+            <button
+              onClick={handleSearch}
+              className="w-1/5 border border-black p-3 hover:bg-black hover:text-white"
+            >
+              Buscar
+            </button>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }
