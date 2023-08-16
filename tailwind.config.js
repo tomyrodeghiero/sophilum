@@ -13,6 +13,7 @@ module.exports = {
           200: "#FCF8F3",
         },
         green: {
+          700: "#28b63e",
           900: "#255849",
         },
         stone: {
@@ -34,6 +35,9 @@ module.exports = {
         },
         rose: {
           300: "#F9F1E7",
+        },
+        slate: {
+          800: "#2a3243",
         },
       },
       width: {

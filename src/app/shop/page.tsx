@@ -13,6 +13,7 @@ import Features from "@/components/features/Features";
 import Image from "next/image";
 import { DROP_RIGHT } from "@/utils/assets/icons/icons";
 import Loader from "@/components/loader/Loader";
+import SkeletonCard from "@/components/skeleton-card";
 
 const ShopPage = () => {
   const searchParams = useSearchParams();
@@ -57,10 +58,11 @@ const ShopPage = () => {
 
       const productsDB = await response.json();
       setProducts(productsDB);
-      setIsLoading(false);
     } catch (error) {
       console.error("error", error);
       throw error;
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -206,7 +208,11 @@ const ShopPage = () => {
 
           <div className="flex-col w-full">
             {isLoading ? (
-              <Loader />
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-10">
+                {Array.from({ length: 6 }).map((_, index) => (
+                  <SkeletonCard key={index} />
+                ))}
+              </div>
             ) : (
               <ProductDisplay
                 resetFilters={resetFilters}

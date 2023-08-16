@@ -14,12 +14,15 @@ import {
   SHOPPING_CART,
 } from "@/utils/assets/icons/icons";
 import { useRouter } from "next/navigation";
+import { useCart } from "@/context/CartContext";
 
 export default function Navbar() {
   const router = useRouter();
 
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const { cart } = useCart();
 
   const handleSearch = (e: any) => {
     e.preventDefault();
@@ -90,11 +93,18 @@ export default function Navbar() {
               </Link>
               <div className="flex items-center gap-4">
                 <Link href="/shopping-cart">
-                  <img
-                    className="h-5 cursor-pointer"
-                    src={SHOPPING_CART}
-                    alt="Shopping cart"
-                  />
+                  <div className="relative">
+                    <img
+                      className="h-5 cursor-pointer"
+                      src={SHOPPING_CART}
+                      alt="Shopping cart"
+                    />
+                    {cart.length > 0 && (
+                      <div className="absolute top-[0.6rem] left-[0.7rem] text-[0.9rem] h-5 w-5 rounded-full border border-yellow-800 bg-gray-400 flex items-center justify-center text-white shadow">
+                        {cart.length}
+                      </div>
+                    )}
+                  </div>
                 </Link>
                 <div onClick={toggleMenu}>
                   <img
@@ -208,7 +218,14 @@ export default function Navbar() {
           onClick={() => setSearchOpen(true)}
         />
         <Link href="/cart">
-          <Image src={SHOPPING_CART} alt="Cart" width={30} height={30} />
+          <div className="relative">
+            <Image src={SHOPPING_CART} alt="Cart" width={30} height={30} />
+            {cart.length > 0 && (
+              <div className="absolute top-3 left-4 text-[0.9rem] h-5 w-5 rounded-full border border-green-900 bg-gray-400 flex items-center justify-center text-white shadow">
+                {cart.length}
+              </div>
+            )}
+          </div>
         </Link>
         <Image src={SPAIN} alt="Spanish Flag" width={30} height={30} />
       </div>

@@ -2,101 +2,20 @@
 
 import SeeMoreInShopButton from "@/components/buttons/SeeMoreInShopButton";
 import { FormatText } from "@/components/format-text/FormatText";
-import {
-  CART_01,
-  CART_02,
-  CART_03,
-  CART_04,
-} from "@/utils/assets/cart-example/cart-example";
 import { DROP_DOWN, DROP_RIGHT, STARS } from "@/utils/assets/icons/icons";
 import { formatPriceARS } from "@/utils/functions/functions";
 import React, { useEffect, useRef, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import Image from "next/image";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import { useCart } from "@/context/CartContext";
+import { PRODUCTS } from "@/utils/assets/dummy/data";
 
-const PRODUCTS = [
-  {
-    name: "Producto 1",
-    price: 100,
-    quantity: 2,
-    subtotal: 200,
-    image: CART_01,
-    id: 1,
-    description: "Descripción 1",
-  },
-  {
-    name: "Producto 2",
-    price: 200,
-    quantity: 5,
-    subtotal: 200,
-    image: CART_02,
-    id: 2,
-    description: "Descripción 2",
-  },
-  {
-    name: "Producto 2",
-    price: 200,
-    quantity: 5,
-    subtotal: 200,
-    image: CART_02,
-    id: 2,
-    description: "Descripción 2",
-  },
-  {
-    name: "Producto 2",
-    price: 200,
-    quantity: 5,
-    subtotal: 200,
-    image: CART_02,
-    id: 2,
-    description: "Descripción 2",
-  },
-  {
-    name: "Producto 1",
-    price: 100,
-    quantity: 2,
-    subtotal: 200,
-    image: CART_01,
-    id: 1,
-    description: "Descripción 1",
-  },
-  {
-    name: "Producto 1",
-    price: 100,
-    quantity: 2,
-    subtotal: 200,
-    image: CART_01,
-    id: 1,
-    description: "Descripción 1",
-  },
-  {
-    name: "Producto 1",
-    price: 100,
-    quantity: 2,
-    subtotal: 200,
-    image: CART_01,
-    id: 1,
-    description: "Descripción 1",
-  },
-];
-
-const ShopPage = () => {
-  const productID = {
-    _id: 1,
-    name: "Lámpara Viking",
-    description: "Lámpara Viking de madera",
-    mainImageUrl: CART_01,
-    category: "Sofas",
-    price: 100,
-    quantity: 2,
-    subtotal: 200,
-    secondaryImageUrls: [CART_02, CART_03, CART_04],
-    briefDescription: "Descripción breve del producto 1 para la tienda",
-  };
+export default function ShopPage({ params }: { params: { id: string } }) {
   const [activeTab, setActiveTab] = useState<string>("description");
 
   const carouselRef = useRef<any>(null);
+  const mainImageRef = useRef<any>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -111,7 +30,7 @@ const ShopPage = () => {
           carouselRef.current.scrollLeft = 0;
         }
       }
-    }, 200); // Velocidad de desplazamiento, ajústala a tu gusto
+    }, 5); // Velocidad de desplazamiento, ajústala a tu gusto
 
     // Limpieza al desmontar
     return () => clearInterval(interval);
@@ -119,28 +38,106 @@ const ShopPage = () => {
 
   const [descriptionOpen, setDescriptionOpen] = useState(false);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (carouselRef.current) {
-        carouselRef.current.scrollLeft += 1;
-
-        // Si hemos llegado al final del carrusel, volvemos al principio
-        if (
-          carouselRef.current.scrollLeft + carouselRef.current.offsetWidth >=
-          carouselRef.current.scrollWidth
-        ) {
-          carouselRef.current.scrollLeft = 0;
-        }
-      }
-    }, 10); // Velocidad de desplazamiento, ajústala a tu gusto
-
-    // Limpieza al desmontar
-    return () => clearInterval(interval);
-  }, []); // Dependencias vacías para que solo se ejecute una vez
-
   const path = "Home - Shop - Sofa";
 
   const pathParts = path.split("-");
+
+  const [quantity, setQuantity] = useState(1);
+  const [productID, setProductID] = useState<any>();
+
+  const [productAdded, setProductAdded] = useState(false);
+  const [stock, setStock] = useState<number>(1);
+
+  // Este efecto escuchará los cambios en productAdded y mostrará y ocultará el mensaje en consecuencia.
+  useEffect(() => {
+    if (productAdded) {
+      setTimeout(() => {
+        setProductAdded(false);
+      }, 7000);
+    }
+  }, [productAdded]);
+
+  // Function to fetch products
+  async function getProductID(): Promise<any> {
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    try {
+      const response = await fetch(`/api/product/${params.id}`, requestOptions);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      } else if (
+        !response.headers.get("Content-Type")?.includes("application/json")
+      ) {
+        throw new Error(
+          `Invalid content type. Expected application/json but received ${response.headers.get(
+            "Content-Type"
+          )}`
+        );
+      }
+
+      const productDB = await response.json();
+      console.log("productDB", productDB);
+      setStock(productDB.stock);
+
+      // set the ordered chat history instead of setting it
+      setProductID(productDB);
+    } catch (error) {
+      console.error("error", error);
+      throw error;
+    }
+  }
+
+  useEffect(() => {
+    getProductID();
+  }, []);
+
+  const increment = () => {
+    if (quantity < stock) {
+      setQuantity(quantity + 1);
+    } else {
+      toast.warning(
+        `No hay más stock de este producto. Solo quedan ${stock} unidades.`,
+        {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        }
+      );
+    }
+  };
+
+  const decrement = () => quantity > 1 && setQuantity(quantity - 1);
+
+  if (!mainImageRef || !productID) {
+    return null;
+  }
+
+  const showAddedToCart = () => {
+    return toast.success(
+      `El Producto ${productID.name} ha sido añadido a su carrito! 🛍️ 🎉`,
+      {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      }
+    );
+  };
+
+  const { addToCart } = useCart();
 
   return (
     <div>
@@ -189,15 +186,14 @@ const ShopPage = () => {
 
           <div className="flex w-28 h-12 text-gray-700 justify-between rounded items-center gap-2 bg-gray-300 p-2">
             <button
-              // onClick={decrement}
+              onClick={decrement}
               className="px-3 h-full rounded hover:bg-gray-400"
             >
               -
             </button>
-            {/* <span className="w-8 text-center">{quantity}</span> */}
-            <span className="w-8 text-center">2</span>
+            <span className="w-8 text-center">{quantity}</span>
             <button
-              // onClick={increment}
+              onClick={increment}
               className="px-3 h-full rounded hover:bg-gray-400"
             >
               +
@@ -207,29 +203,17 @@ const ShopPage = () => {
 
         <button
           onClick={() => {
-            // addToCart(
-            //   productID._id,
-            //   productID.name,
-            //   productID.price,
-            //   productID.mainImageUrl,
-            //   quantity
-            // );
-            // setProductAdded(true);
-
-            // Usando react-toastify para notificar al usuario.
-            toast.success(
-              `El Producto ${productID.name} ha sido añadido a su carrito! 🛍️ 🎉`,
-              {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-              }
+            addToCart(
+              productID._id,
+              productID.name,
+              productID.price,
+              productID.mainImageUrl,
+              quantity
             );
+            setProductAdded(true);
+            showAddedToCart();
           }}
-          className="bg-white hover:bg-black hover:text-white w-full border py-2 h-11 text-[0.85rem] font-medium px-10 border-black rounded uppercase"
+          className="bg-green-900 hover:bg-green-700 focus:outline-none focus:ring-1 focus:ring-green-600 focus:ring-opacity-50 transition duration-300 ease-in-out transform hover:shadow-md hover:-translate-y-1 rounded-[40px] text-white px-6 py-3"
         >
           Añadir al carrito
         </button>
@@ -266,7 +250,7 @@ const ShopPage = () => {
       </div>
 
       {/* Original layout on Desktop */}
-      <div className="hidden lg:flex justify-between gap-4 my-8 px-24 lg:max-h-[70vh] relative">
+      <div className="hidden lg:flex justify-between gap-4 my-8 px-24 relative">
         <div className="flex flex-col space-y-4 hide-scrollbar scroll-container">
           {productID.secondaryImageUrls.map((image: any, index: number) => (
             <img
@@ -295,32 +279,32 @@ const ShopPage = () => {
             <div className="flex items-center my-12 justify-start gap-4">
               <div className="flex w-28 h-12 text-gray-700 justify-between rounded-lg border border-gray-500 items-center gap-2 p-2">
                 <button
-                  // onClick={decrement}
+                  onClick={decrement}
                   className="px-3 h-full rounded hover:bg-gray-400"
                 >
                   -
                 </button>
-                {/* <span className="w-8 text-center">{quantity}</span> */}
-                <span className="w-8 text-center">2</span>
+                <span className="w-8 text-center">{quantity}</span>
                 <button
-                  // onClick={increment}
+                  onClick={increment}
                   className="px-3 h-full rounded hover:bg-gray-400"
                 >
                   +
                 </button>
               </div>
               <button
-                //   onClick={() => {
-                //     addToCart(
-                //       productID._id,
-                //       productID.name,
-                //       productID.price,
-                //       productID.mainImageUrl,
-                //       quantity
-                //     );
-                //     setProductAdded(true);
-                //   }}
-                className="bg-white rounded-lg hover:bg-black hover:text-white px-5 border py-2 h-11 border-black"
+                onClick={() => {
+                  addToCart(
+                    productID._id,
+                    productID.name,
+                    productID.price,
+                    productID.mainImageUrl,
+                    quantity
+                  );
+                  setProductAdded(true);
+                  showAddedToCart();
+                }}
+                className="bg-green-900 hover:bg-green-700 rounded focus:outline-none focus:ring-1 focus:ring-green-600 focus:ring-opacity-50 transition duration-300 ease-in-out transform hover:shadow-md hover:-translate-y-1 text-white px-6 py-3"
               >
                 Añadir al carrito
               </button>
@@ -353,31 +337,11 @@ const ShopPage = () => {
             >
               Descripción
             </button>
-            <button
-              className={`text-lg ${
-                activeTab === "additionalInfo"
-                  ? "font-medium text-black"
-                  : "text-gray-500"
-              }`}
-              onClick={() => setActiveTab("additionalInfo")}
-            >
-              Información adicional
-            </button>
           </div>
           <div className="w-3/4 mx-auto">
             {activeTab === "description" && (
               <FormatText
-                text={
-                  "Duis rutrum dictum libero quis rutrum. Etiam sed neque aliquam, sollicitudin ante a, gravida arcu. Nam fringilla molestie velit, eget pellentesque risus scelerisque a. Nam ac urna maximus, tempor magna et, placerat urna. Curabitur eu magna enim. Proin placerat tortor lacus, ac sodales lectus placerat quis. "
-                }
-                className="text-gray-700 hidden lg:flex"
-              />
-            )}
-            {activeTab === "additionalInfo" && (
-              <FormatText
-                text={
-                  "Weighing in under 7 pounds, the Kilburn is a lightweight piece of vintage styled engineering. Setting the bar as one of the loudest speakers in its class, the Kilburn is a compact, stout-hearted hero with a well-balanced audio which boasts a clear midrange and extended highs for a sound that is both articulate and pronounced. The analogue knobs allow you to fine tune the controls to your personal preferences while the guitar-influenced leather strap enables easy and stylish travel."
-                }
+                text={productID.description}
                 className="text-gray-700 hidden lg:flex"
               />
             )}
@@ -393,7 +357,7 @@ const ShopPage = () => {
           ref={carouselRef}
           className="flex overflow-x-scroll gap-8 hide-scrollbar my-6"
         >
-          {PRODUCTS.map((product) => (
+          {PRODUCTS.map((product: any) => (
             <div key={product.id} className="min-w-[200px]">
               <img
                 src={product.image}
@@ -410,8 +374,19 @@ const ShopPage = () => {
           <SeeMoreInShopButton />
         </div>
       </div>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
-};
-
-export default ShopPage;
+}

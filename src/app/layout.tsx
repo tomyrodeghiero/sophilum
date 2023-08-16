@@ -1,11 +1,13 @@
 import "./globals.css";
+import "react-toastify/dist/ReactToastify.css";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 import type { Metadata } from "next";
 import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/footer/Footer";
 import WhatsApp from "@/components/whatsapp/Whatsapp";
 
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { CartProvider } from "@/context/CartContext";
 
 export const metadata: Metadata = {
   title: "Shopilum",
@@ -20,10 +22,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Navbar />
-        {children}
-        <WhatsApp />
-        <Footer />
+        <CartProvider>
+          <Navbar />
+          {children}
+          <WhatsApp />
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );

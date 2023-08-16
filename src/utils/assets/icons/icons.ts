@@ -1,6 +1,7 @@
 export const SEARCH = "/assets/icons/search.svg";
 export const SHOPPING_CART = "/assets/icons/shopping-cart.svg";
 export const WHATSAPP = "/assets/icons/whatsapp.png";
+export const WHATSAPP_CART = "/assets/icons/whatsapp-cart.png";
 export const ARROW_RIGHT = "/assets/icons/arrow-right.png";
 export const FACEBOOK = "/assets/icons/facebook.png";
 export const INSTAGRAM = "/assets/icons/instagram.png";
@@ -21,3 +22,5 @@ export const CLOSE_MENU = "/assets/icons/close-menu.png";
 export const HISTORY = "/assets/icons/history.png";
 export const HOME = "/assets/icons/home.png";
 export const DROP_RIGHT = "/assets/icons/drop-right.svg";
+export const EMPTY_CART = "/assets/icons/empty-cart.svg";
+export const MODO = "/assets/icons/modo.png";
