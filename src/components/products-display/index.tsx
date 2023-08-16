@@ -14,14 +14,14 @@ export const ProductDisplay = ({ products, resetFilters }: any) => {
               key={product._id}
               className="product-card group rounded relative transition-transform duration-300 ease-in-out transform hover:-translate-y-3"
             >
-              <div className="relative">
+              <div className="relative max-h-[30rem]">
                 <img
                   alt="product"
                   src={product.mainImageUrl}
-                  className="h-48 lg:h-96 w-full object-cover"
+                  className="h-52 lg:h-96 w-full object-cover"
                 />
 
-                <div className="product-tag bg-gray-200 py-3 px-4 opacity-0 group-hover:opacity-60 flex items-center justify-center">
+                <div className="product-tag absolute bottom-0 left-0 right-0 bg-gray-200 py-3 px-4 opacity-0 group-hover:opacity-60 flex items-center justify-center">
                   <img alt="product" src={SHOPPING_CART} className="h-5 mr-2" />
                   <span className="text-[0.9rem] text-black font-medium uppercase">
                     Ver producto
