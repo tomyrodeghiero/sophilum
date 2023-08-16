@@ -117,6 +117,29 @@ body {
 }
 
 /* Hashtag */
+.collage-container {
+  display: relative;
+  width: 100%;
+}
+
+@media screen and (min-height: 700px) {
+  .collage-container {
+    height: 50rem;
+  }
+}
+
+@media screen and (min-height: 850px) {
+  .collage-container {
+    height: 65rem;
+  }
+}
+
+@media screen and (min-height: 1000px) {
+  .collage-container {
+    height: 70rem;
+  }
+}
+
 .hashtag-img {
   position: absolute;
   transition: all 0.3s ease;
@@ -157,7 +180,7 @@ body {
   width: 20%;
 }
 .hashtag-6 {
-  top: 60%;
+  top: 57.5%;
   left: 0%;
   width: 20%;
 }

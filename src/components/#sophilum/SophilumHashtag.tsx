@@ -22,7 +22,7 @@ const SophilumHashtag = () => {
         #Sophilum
       </h3>
 
-      <div className="relative w-full h-[45rem]">
+      <div className="collage-container relative w-full h-[45rem]">
         <Image
           className="hashtag-img hashtag-1 rounded"
           src={HASHTAG_01}
