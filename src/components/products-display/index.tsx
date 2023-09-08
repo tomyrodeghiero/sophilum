@@ -2,6 +2,7 @@ import { formatPriceARS } from "@/utils/functions/functions";
 import Link from "next/link";
 import { NoResults } from "../no-results";
 import { SHOPPING_CART } from "@/utils/assets/icons/icons";
+import { FormatText } from "../format-text/FormatText";
 
 export const ProductDisplay = ({ products, resetFilters }: any) => {
   return (
@@ -30,8 +31,10 @@ export const ProductDisplay = ({ products, resetFilters }: any) => {
               </div>
               <div className="p-4 pb-5 bg-gray-100">
                 <h3 className="text-xl font-medium">{product.name}</h3>
-                <p className="text-sm text-gray-600 mt-1">Descripción</p>
-                <p className="text-lg font-semibold mt-2">{product.price}</p>
+                <FormatText text="Descripción" className="text-gray-700 mb-3" />
+                <p className="text-lg font-semibold mt-2">
+                  {formatPriceARS(product.price)}
+                </p>
               </div>
             </Link>
           ))}

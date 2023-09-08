@@ -58,7 +58,7 @@ const ContactPage = () => {
                 <h3 className="font-medium text-xl mb-2">
                   Horario de Atención
                 </h3>
-                <p>Lunes a Viernes: 9:00 - 20:00</p>
+                <p>Lunes a Viernes: 9:00 - 18:00</p>
                 <p>Sábados: 9:00 - 13:00</p>
               </div>
             </div>

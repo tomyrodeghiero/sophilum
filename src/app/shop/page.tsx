@@ -12,7 +12,6 @@ import { ProductDisplay } from "@/components/products-display";
 import Features from "@/components/features/Features";
 import Image from "next/image";
 import { DROP_RIGHT } from "@/utils/assets/icons/icons";
-import Loader from "@/components/loader/Loader";
 import SkeletonCard from "@/components/skeleton-card";
 
 const ShopPage = () => {

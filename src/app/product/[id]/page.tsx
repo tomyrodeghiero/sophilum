@@ -141,7 +141,7 @@ export default function ShopPage({ params }: { params: { id: string } }) {
 
   return (
     <div>
-      <div className="bg-rose-300 py-5 px-5 lg:px-16">
+      <div className="bg-rose-300 py-5 px-5 lg:px-16 w-full">
         <div className="flex gap-2">
           {pathParts.map((part: string, index: number) => (
             <React.Fragment key={index}>
@@ -176,7 +176,7 @@ export default function ShopPage({ params }: { params: { id: string } }) {
           )}
         </Carousel>
 
-        <div className="flex justify-between mt-5">
+        <div className="flex justify-between mt-5 w-full">
           <div>
             <h1 className="text-2xl mb-2">{productID?.name}</h1>
             <h2 className="text-yellow-800 mb-5">
@@ -223,7 +223,7 @@ export default function ShopPage({ params }: { params: { id: string } }) {
           className="text-gray-700 my-7"
         />
 
-        <div className="border-y border-gray-400 text-[1.1rem]">
+        <div className="border-y border-gray-400 text-[1.1rem] w-full">
           <div
             onClick={() => setDescriptionOpen(!descriptionOpen)}
             className="cursor-pointer"
@@ -325,7 +325,7 @@ export default function ShopPage({ params }: { params: { id: string } }) {
       </div>
 
       <div className="hidden lg:flex w-full gap-8">
-        <div className="border-y py-8 border-gray-300">
+        <div className="border-y py-8 border-gray-300 w-full">
           <div className="flex gap-14 justify-center mb-5">
             <button
               className={`text-lg ${

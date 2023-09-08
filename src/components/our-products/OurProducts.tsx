@@ -1,60 +1,54 @@
+"use client";
+
 import { formatPriceARS } from "@/utils/functions/functions";
-import React from "react";
+import React, { useEffect } from "react";
 import SeeMoreInShopButton from "../buttons/SeeMoreInShopButton";
 import { SHOPPING_CART } from "@/utils/assets/icons/icons";
 import Link from "next/link";
+import { FormatText } from "../format-text/FormatText";
 
 const OurProducts = () => {
-  const products = [
-    {
-      img: "/assets/products/image-01.png",
-      title: "Producto 1",
-      description: "Descripción",
-      price: formatPriceARS(200),
-    },
-    {
-      img: "/assets/products/image-02.png",
-      title: "Producto 2",
-      description: "Descripción",
-      price: formatPriceARS(200),
-    },
-    {
-      img: "/assets/products/image-03.png",
-      title: "Producto 3",
-      description: "Descripción",
-      price: formatPriceARS(200),
-    },
-    {
-      img: "/assets/products/image-04.png",
-      title: "Producto 4",
-      description: "Descripción",
-      price: formatPriceARS(200),
-    },
-    {
-      img: "/assets/products/image-05.png",
-      title: "Producto 4",
-      description: "Descripción",
-      price: formatPriceARS(200),
-    },
-    {
-      img: "/assets/products/image-03.png",
-      title: "Producto 4",
-      description: "Descripción",
-      price: formatPriceARS(200),
-    },
-    {
-      img: "/assets/products/image-07.png",
-      title: "Producto 4",
-      description: "Descripción",
-      price: formatPriceARS(200),
-    },
-    {
-      img: "/assets/products/image-08.png",
-      title: "Producto 4",
-      description: "Descripción",
-      price: formatPriceARS(200),
-    },
-  ];
+  // Add use states
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [products, setProducts] = React.useState([]);
+
+  // Function to fetch products
+  async function getProducts(): Promise<any> {
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    try {
+      const response = await fetch("/api/products", requestOptions);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      } else if (
+        !response.headers.get("Content-Type")?.includes("application/json")
+      ) {
+        throw new Error(
+          `Invalid content type. Expected application/json but received ${response.headers.get(
+            "Content-Type"
+          )}`
+        );
+      }
+
+      const productsDB = await response.json();
+      setProducts(productsDB);
+    } catch (error) {
+      console.error("error", error);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getProducts();
+  }, []);
 
   return (
     <div className="bg-white w-full pt-8 px-4 lg:px-24">
@@ -62,7 +56,7 @@ const OurProducts = () => {
         Nuestros Productos
       </h3>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {products.map((product, index) => (
+        {products.slice(0, 12).map((product, index) => (
           <Link
             href="/product"
             key={index}
@@ -71,7 +65,7 @@ const OurProducts = () => {
             <div className="relative">
               <img
                 alt="product"
-                src={product.img}
+                src={product.mainImageUrl}
                 className="h-48 lg:h-96 w-full object-cover"
               />
 
@@ -83,11 +77,13 @@ const OurProducts = () => {
               </div>
             </div>
             <div className="p-4 pb-5 bg-gray-100">
-              <h3 className="text-xl font-medium">{product.title}</h3>
-              <p className="text-sm text-gray-600 mt-1">
+              <h3 className="text-xl font-medium">{product.name}</h3>
+              {/* <p className="text-sm text-gray-600 mt-1">
                 {product.description}
+              </p> */}
+              <p className="text-lg font-semibold mt-2">
+                {formatPriceARS(product.price)}
               </p>
-              <p className="text-lg font-semibold mt-2">{product.price}</p>
             </div>
           </Link>
         ))}
