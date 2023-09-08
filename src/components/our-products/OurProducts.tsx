@@ -7,10 +7,16 @@ import { SHOPPING_CART } from "@/utils/assets/icons/icons";
 import Link from "next/link";
 import { FormatText } from "../format-text/FormatText";
 
+type Product = {
+  mainImageUrl: string;
+  name: string;
+  price: number;
+};
+
 const OurProducts = () => {
   // Add use states
   const [isLoading, setIsLoading] = React.useState(true);
-  const [products, setProducts] = React.useState([]);
+  const [products, setProducts] = React.useState<Product[]>([]);
 
   // Function to fetch products
   async function getProducts(): Promise<any> {
