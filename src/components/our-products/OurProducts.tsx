@@ -11,6 +11,7 @@ type Product = {
   mainImageUrl: string;
   name: string;
   price: number;
+  _id: string;
 };
 
 const OurProducts = () => {
@@ -64,7 +65,7 @@ const OurProducts = () => {
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {products.slice(0, 12).map((product, index) => (
           <Link
-            href="/product"
+            href={`/product/${product._id}`}
             key={index}
             className="product-card group rounded relative transition-transform duration-300 ease-in-out transform hover:-translate-y-3"
           >
