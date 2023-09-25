@@ -1,7 +1,7 @@
 "use client";
 
 import { formatPriceARS } from "@/utils/functions/functions";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import SeeMoreInShopButton from "../buttons/SeeMoreInShopButton";
 import { SHOPPING_CART } from "@/utils/assets/icons/icons";
 import Link from "next/link";
@@ -18,9 +18,15 @@ const OurProducts = () => {
   // Add use states
   const [isLoading, setIsLoading] = React.useState(true);
   const [products, setProducts] = React.useState<Product[]>([]);
+  const [paginationInfo, setPaginationInfo] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    totalProducts: 0,
+  });
 
   // Function to fetch products
-  async function getProducts(): Promise<any> {
+  // Function to fetch products
+  async function getProducts(page = 1): Promise<any> {
     const requestOptions = {
       method: "GET",
       headers: {
@@ -29,7 +35,10 @@ const OurProducts = () => {
     };
 
     try {
-      const response = await fetch("/api/products", requestOptions);
+      const response = await fetch(
+        `/api/products?page=${page}&limit=${12}`,
+        requestOptions
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -44,7 +53,13 @@ const OurProducts = () => {
       }
 
       const productsDB = await response.json();
-      setProducts(productsDB);
+      // Cuando se recuperan los productos, también se establece la información de paginación
+      setProducts(productsDB.products);
+      setPaginationInfo({
+        currentPage: productsDB.currentPage,
+        totalPages: productsDB.totalPages,
+        totalProducts: productsDB.totalProducts,
+      });
     } catch (error) {
       console.error("error", error);
       throw error;
@@ -54,8 +69,8 @@ const OurProducts = () => {
   }
 
   useEffect(() => {
-    getProducts();
-  }, []);
+    getProducts(paginationInfo.currentPage);
+  }, [paginationInfo.currentPage]);
 
   return (
     <div className="bg-white w-full pt-8 px-4 lg:px-24">
