@@ -30,9 +30,14 @@ const ShopPage = () => {
   const [sortByCategory, setSortByCategory] = useState(
     categoryQueryParam || ""
   );
+  const [paginationInfo, setPaginationInfo] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    totalProducts: 0,
+  });
 
   // Function to fetch products
-  async function getProducts(): Promise<any> {
+  async function getProducts(page = 1): Promise<any> {
     const requestOptions = {
       method: "GET",
       headers: {
@@ -41,7 +46,10 @@ const ShopPage = () => {
     };
 
     try {
-      const response = await fetch("/api/products", requestOptions);
+      const response = await fetch(
+        `/api/products?page=${page}&limit=${productsPerPage}`,
+        requestOptions
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -56,7 +64,13 @@ const ShopPage = () => {
       }
 
       const productsDB = await response.json();
-      setProducts(productsDB);
+      // Cuando se recuperan los productos, también se establece la información de paginación
+      setProducts(productsDB.products);
+      setPaginationInfo({
+        currentPage: productsDB.currentPage,
+        totalPages: productsDB.totalPages,
+        totalProducts: productsDB.totalProducts,
+      });
     } catch (error) {
       console.error("error", error);
       throw error;
@@ -66,8 +80,8 @@ const ShopPage = () => {
   }
 
   useEffect(() => {
-    getProducts();
-  }, []);
+    getProducts(paginationInfo.currentPage);
+  }, [paginationInfo.currentPage]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 10; // Cambia esto según tus necesidades
@@ -155,12 +169,20 @@ const ShopPage = () => {
   const nextPage = () => {
     if (currentPage < Math.ceil(filteredProducts.length / productsPerPage)) {
       setCurrentPage(currentPage + 1);
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
     }
   };
 
   const prevPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
     }
   };
 
@@ -221,21 +243,41 @@ const ShopPage = () => {
 
             {filteredProducts.length > 0 && (
               <div className="flex justify-center my-8 lg:mb-0 w-full">
-                {[1, 2, 3].map((pageNumber) => (
-                  <button
-                    key={pageNumber}
-                    onClick={() => setCurrentPage(pageNumber)}
-                    className={`px-4 py-2 mx-2 rounded ${
-                      currentPage === pageNumber
-                        ? "bg-yellow-600 text-white"
-                        : "bg-gray-200"
-                    }`}
-                  >
-                    {pageNumber}
-                  </button>
-                ))}
+                {Array.from({ length: paginationInfo.totalPages }).map(
+                  (_, index) => (
+                    <button
+                      key={index + 1}
+                      onClick={() => {
+                        setPaginationInfo({
+                          ...paginationInfo,
+                          currentPage: index + 1,
+                        });
+                        window.scrollTo({
+                          top: 390,
+                          behavior: "smooth",
+                        });
+                      }}
+                      className={`px-4 py-2 mx-2 rounded ${
+                        paginationInfo.currentPage === index + 1
+                          ? "bg-yellow-600 text-white"
+                          : "bg-gray-200"
+                      }`}
+                    >
+                      {index + 1}
+                    </button>
+                  )
+                )}
                 <button
-                  onClick={nextPage}
+                  onClick={() => {
+                    if (
+                      paginationInfo.currentPage < paginationInfo.totalPages
+                    ) {
+                      setPaginationInfo({
+                        ...paginationInfo,
+                        currentPage: paginationInfo.currentPage + 1,
+                      });
+                    }
+                  }}
                   className="px-4 py-2 rounded mx-2 bg-gray-200"
                 >
                   Siguiente

@@ -29,7 +29,7 @@ const Hero = () => {
         <div className="grid grid-cols-2 gap-1 md:grid-cols-4 mt-5 lg:my-10 w-full relative">
           <Image src={GALLERY_01} alt="Image 1" width={500} height={375} />
           <Image src={GALLERY_02} alt="Image 2" width={500} height={375} />
-          <Image src={GALLERY_04} alt="Image 3" width={500} height={375} />
+          <Image src={GALLERY_03} alt="Image 3" width={500} height={375} />
           <Image src={GALLERY_04} alt="Image 4" width={500} height={375} />
         </div>
 
