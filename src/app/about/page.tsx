@@ -1,3 +1,4 @@
+import Features from "@/components/features/Features";
 import HeaderBackground from "@/components/header-background/HeaderBackground";
 import { ABOUT_01, ABOUT_02 } from "@/utils/assets/about/about";
 import {
@@ -64,6 +65,8 @@ const AboutPage = () => {
           vendrá. Gracias por formar parte de nuestro viaje iluminado.
         </p>
       </div>
+
+      <Features />
     </div>
   );
 };
