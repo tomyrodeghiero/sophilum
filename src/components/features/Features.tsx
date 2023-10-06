@@ -23,7 +23,7 @@ const Features = () => {
         <Image src={WARRANTY} alt="Logo" width={75} height={75} />
         <div className="flex flex-col gap-1">
           <h2 className="font-medium text-2xl">Garantía</h2>
-          <p className="font-medium text-lg text-gray-600">Hasta a 1 Año</p>
+          <p className="font-medium text-lg text-gray-600">Hasta 6 meses</p>
         </div>
       </div>
 
@@ -32,7 +32,7 @@ const Features = () => {
         <div className="flex flex-col gap-1">
           <h2 className="font-medium text-2xl">Envío Gratis</h2>
           <p className="font-medium text-lg text-gray-600">
-            Compras mayores a $15.000
+            Compras mayores a $200.000
           </p>
         </div>
       </div>
