@@ -2,17 +2,34 @@
 
 import SeeMoreInShopButton from "@/components/buttons/SeeMoreInShopButton";
 import { FormatText } from "@/components/format-text/FormatText";
-import { DROP_DOWN, DROP_RIGHT, STARS } from "@/utils/assets/icons/icons";
+import {
+  DROP_DOWN,
+  DROP_RIGHT,
+  FACEBOOK,
+  INSTAGRAM,
+  STARS,
+} from "@/utils/assets/icons/icons";
 import { formatPriceARS } from "@/utils/functions/functions";
 import React, { useEffect, useRef, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import Image from "next/image";
 import { ToastContainer, toast } from "react-toastify";
 import { useCart } from "@/context/CartContext";
-import { PRODUCTS } from "@/utils/assets/dummy/data";
+import Link from "next/link";
+import { FACEBOOK_URL, INSTAGRAM_URL } from "@/utils/constants/constants";
+import ColorCircle from "@/components/color-circle";
+
+type Product = {
+  mainImageUrl: string;
+  name: string;
+  price: number;
+  _id: string;
+};
 
 export default function ShopPage({ params }: { params: { id: string } }) {
   const [activeTab, setActiveTab] = useState<string>("description");
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [selectedColor, setSelectedColor] = useState<string | any>(null);
 
   const carouselRef = useRef<any>(null);
   const mainImageRef = useRef<any>(null);
@@ -30,7 +47,7 @@ export default function ShopPage({ params }: { params: { id: string } }) {
           carouselRef.current.scrollLeft = 0;
         }
       }
-    }, 5); // Velocidad de desplazamiento, ajústala a tu gusto
+    }, 2.5); // Velocidad de desplazamiento, ajústala a tu gusto
 
     // Limpieza al desmontar
     return () => clearInterval(interval);
@@ -47,6 +64,15 @@ export default function ShopPage({ params }: { params: { id: string } }) {
 
   const [productAdded, setProductAdded] = useState(false);
   const [stock, setStock] = useState<number>(1);
+
+  // Add use states
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [products, setProducts] = React.useState<Product[]>([]);
+  const [paginationInfo, setPaginationInfo] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    totalProducts: 0,
+  });
 
   // Este efecto escuchará los cambios en productAdded y mostrará y ocultará el mensaje en consecuencia.
   useEffect(() => {
@@ -85,8 +111,11 @@ export default function ShopPage({ params }: { params: { id: string } }) {
       console.log("productDB", productDB);
       setStock(productDB.stock);
 
+      console.log("productdb", productDB);
+
       // set the ordered chat history instead of setting it
       setProductID(productDB);
+      console.log("products", productDB);
     } catch (error) {
       console.error("error", error);
       throw error;
@@ -96,6 +125,10 @@ export default function ShopPage({ params }: { params: { id: string } }) {
   useEffect(() => {
     getProductID();
   }, []);
+
+  useEffect(() => {
+    getProducts(paginationInfo.currentPage);
+  }, [paginationInfo.currentPage]);
 
   const increment = () => {
     if (quantity < stock) {
@@ -125,7 +158,7 @@ export default function ShopPage({ params }: { params: { id: string } }) {
 
   const showAddedToCart = () => {
     return toast.success(
-      `El Producto ${productID.name} ha sido añadido a su carrito! 🛍️ 🎉`,
+      `El Producto ${productID.name} ha sido añadido a su carrito! 🛍️`,
       {
         position: "top-center",
         autoClose: 5000,
@@ -138,6 +171,69 @@ export default function ShopPage({ params }: { params: { id: string } }) {
   };
 
   const { addToCart } = useCart();
+
+  const colors = [
+    { name: "Rojo Suave", hex: "#FF6F6F" },
+    { name: "Verde Menta", hex: "#98FB98" },
+    { name: "Azul Cielo", hex: "#87CEEB" },
+    { name: "Amarillo Claro", hex: "#FFFACD" },
+    { name: "Blanco", hex: "#F5F5F5" },
+    { name: "Melocotón", hex: "#FFE5B4" },
+    { name: "Aqua", hex: "#B0E0E6" },
+    { name: "Rosado", hex: "#FFC0CB" },
+  ];
+
+  const getColorName = (hexCode: string) => {
+    const color = colors.find(
+      (c) => c.hex.toLowerCase() === hexCode.toLowerCase()
+    );
+    return color ? color.name : null;
+  };
+
+  console.log(getColorName("#FF6F6F")); // Debería imprimir "Rojo Suave"
+
+  // Function to fetch products
+  async function getProducts(page = 1): Promise<any> {
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    try {
+      const response = await fetch(
+        `/api/products?page=${page}&limit=${12}`,
+        requestOptions
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      } else if (
+        !response.headers.get("Content-Type")?.includes("application/json")
+      ) {
+        throw new Error(
+          `Invalid content type. Expected application/json but received ${response.headers.get(
+            "Content-Type"
+          )}`
+        );
+      }
+
+      const productsDB = await response.json();
+      // Cuando se recuperan los productos, también se establece la información de paginación
+      setProducts(productsDB.products);
+      setPaginationInfo({
+        currentPage: productsDB.currentPage,
+        totalPages: productsDB.totalPages,
+        totalProducts: productsDB.totalProducts,
+      });
+    } catch (error) {
+      console.error("error", error);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <div>
@@ -203,17 +299,51 @@ export default function ShopPage({ params }: { params: { id: string } }) {
 
         <button
           onClick={() => {
-            addToCart(
-              productID._id,
-              productID.name,
-              productID.price,
-              productID.mainImageUrl,
-              quantity
-            );
-            setProductAdded(true);
-            showAddedToCart();
+            const hasColorOptions =
+              Array.isArray(productID.colors) && productID.colors.length > 0;
+            const hasSizeOptions =
+              Array.isArray(productID.sizes) && productID.sizes.length > 0;
+
+            const isColorSelected = hasColorOptions ? selectedColor : true;
+            const isSizeSelected = hasSizeOptions ? selectedSize : true;
+
+            if (isColorSelected && isSizeSelected) {
+              const colorName = getColorName(selectedColor);
+
+              addToCart(
+                productID._id,
+                productID.name,
+                productID.price,
+                productID.mainImageUrl,
+                quantity,
+                selectedSize,
+                colorName
+              );
+              setProductAdded(true);
+              showAddedToCart();
+            } else {
+              const messages = [];
+              if (!isSizeSelected && hasSizeOptions) messages.push("tamaño");
+              if (!isColorSelected && hasColorOptions) messages.push("color");
+
+              toast.warning(
+                `Selecciona un ${messages.join(
+                  " y un "
+                )} antes de añadir al carrito.`,
+                {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                }
+              );
+            }
           }}
-          className="bg-green-900 hover:bg-green-700 focus:outline-none focus:ring-1 focus:ring-green-600 focus:ring-opacity-50 transition duration-300 ease-in-out transform hover:shadow-md hover:-translate-y-1 rounded-[40px] text-white px-6 py-3"
+          className={`bg-green-900 hover:bg-green-700 rounded focus:outline-none focus:ring-1 focus:ring-green-600 focus:ring-opacity-50 transition duration-300 ease-in-out transform hover:shadow-md hover:-translate-y-1 text-white py-4 w-full`}
         >
           Añadir al carrito
         </button>
@@ -276,7 +406,53 @@ export default function ShopPage({ params }: { params: { id: string } }) {
             </h2>
             <img src={STARS} alt="Stars" className="w-28 mb-4" />
             <FormatText text={productID.briefDescription} />
-            <div className="flex items-center my-12 justify-start gap-4">
+
+            {productID.sizes.length > 0 && (
+              <div className="flex flex-col gap-2">
+                <h2 className="mt-5 text-[0.95rem] text-gray-500">Tamaño</h2>
+                <div className="flex gap-3">
+                  {productID.sizes.map((size: string) => (
+                    <button
+                      key={size}
+                      className={`py-2 px-3 rounded ${
+                        selectedSize === size
+                          ? "bg-yellow-600 text-white transition ease-in-out duration-300"
+                          : "bg-rose-300 text-black transition ease-in-out duration-300"
+                      }`}
+                      onClick={() => setSelectedSize(size)}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {productID.colors.length > 0 && (
+              <div className="flex flex-col gap-2 mt-5">
+                <h2 className="text-[0.95rem] text-gray-500">Color</h2>
+                <div className="flex gap-3">
+                  {Array.isArray(productID.colors) ? (
+                    productID.colors.map((color: string, index: number) => (
+                      <ColorCircle
+                        key={index}
+                        color={color}
+                        selected={selectedColor === color}
+                        onClick={() => setSelectedColor(color)}
+                      />
+                    ))
+                  ) : (
+                    <ColorCircle
+                      color={productID.color}
+                      selected={selectedColor === productID.color}
+                      onClick={() => setSelectedColor(productID.color)}
+                    />
+                  )}
+                </div>
+              </div>
+            )}
+
+            <div className="flex items-center my-7 justify-start gap-4">
               <div className="flex w-28 h-12 text-gray-700 justify-between rounded-lg border border-gray-500 items-center gap-2 p-2">
                 <button
                   onClick={decrement}
@@ -294,17 +470,57 @@ export default function ShopPage({ params }: { params: { id: string } }) {
               </div>
               <button
                 onClick={() => {
-                  addToCart(
-                    productID._id,
-                    productID.name,
-                    productID.price,
-                    productID.mainImageUrl,
-                    quantity
-                  );
-                  setProductAdded(true);
-                  showAddedToCart();
+                  const hasColorOptions =
+                    Array.isArray(productID.colors) &&
+                    productID.colors.length > 0;
+                  const hasSizeOptions =
+                    Array.isArray(productID.sizes) &&
+                    productID.sizes.length > 0;
+
+                  const isColorSelected = hasColorOptions
+                    ? selectedColor
+                    : true;
+                  const isSizeSelected = hasSizeOptions ? selectedSize : true;
+
+                  if (isColorSelected && isSizeSelected) {
+                    const colorName = getColorName(selectedColor);
+
+                    addToCart(
+                      productID._id,
+                      productID.name,
+                      productID.price,
+                      productID.mainImageUrl,
+                      quantity,
+                      selectedSize,
+                      colorName
+                    );
+                    setProductAdded(true);
+                    showAddedToCart();
+                  } else {
+                    const messages = [];
+                    if (!isSizeSelected && hasSizeOptions)
+                      messages.push("tamaño");
+                    if (!isColorSelected && hasColorOptions)
+                      messages.push("color");
+
+                    toast.warning(
+                      `Selecciona un ${messages.join(
+                        " y un "
+                      )} antes de añadir al carrito.`,
+                      {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                      }
+                    );
+                  }
                 }}
-                className="bg-green-900 hover:bg-green-700 rounded focus:outline-none focus:ring-1 focus:ring-green-600 focus:ring-opacity-50 transition duration-300 ease-in-out transform hover:shadow-md hover:-translate-y-1 text-white px-6 py-3"
+                className={`bg-green-900 hover:bg-green-700 rounded focus:outline-none focus:ring-1 focus:ring-green-600 focus:ring-opacity-50 transition duration-300 ease-in-out transform hover:shadow-md hover:-translate-y-1 text-white py-4 w-full`}
               >
                 Añadir al carrito
               </button>
@@ -312,13 +528,34 @@ export default function ShopPage({ params }: { params: { id: string } }) {
           </div>
 
           <div>
-            <h2 className="mt-8 text-[0.95rem]">
+            {productID.lightTone && (
+              <h2 className="mt-8 text-[0.95rem]">
+                Tono de Luz : &nbsp;
+                <span className="text-gray-700">{productID.lightTone}</span>
+              </h2>
+            )}
+
+            <h2 className="mt-4 text-[0.95rem]">
               Categoría : &nbsp;
               <span className="text-gray-700">{productID.category}</span>
             </h2>
 
-            <div className="flex">
+            <div className="flex items-center">
               <h2 className="my-4 text-[0.95rem]">Contacto : &nbsp;</h2>
+              <Link href={FACEBOOK_URL}>
+                <img
+                  className="hover-lift h-4 mx-2"
+                  src={FACEBOOK}
+                  alt="Facebook Icon"
+                />
+              </Link>
+              <Link href={INSTAGRAM_URL}>
+                <img
+                  className="hover-lift h-4 mx-2"
+                  src={INSTAGRAM}
+                  alt="Instagram Icon"
+                />
+              </Link>
             </div>
           </div>
         </div>
@@ -342,7 +579,7 @@ export default function ShopPage({ params }: { params: { id: string } }) {
             {activeTab === "description" && (
               <FormatText
                 text={productID.description}
-                className="text-gray-700 hidden lg:flex"
+                className="text-gray-700"
               />
             )}
           </div>
@@ -357,16 +594,22 @@ export default function ShopPage({ params }: { params: { id: string } }) {
           ref={carouselRef}
           className="flex overflow-x-scroll gap-8 hide-scrollbar my-6"
         >
-          {PRODUCTS.map((product: any) => (
-            <div key={product.id} className="min-w-[200px]">
+          {products.map((product: any) => (
+            <Link
+              href={`/product/${product._id}`}
+              key={product._id}
+              className="min-w-[200px]"
+            >
               <img
-                src={product.image}
+                src={product.mainImageUrl}
                 alt={product?.name}
                 className="object-cover h-48 w-full rounded-lg"
               />
               <h4 className="mt-4 w-full truncate">{product?.name}</h4>
-              <p className="text-yellow-800 mt-1">${product.price}</p>
-            </div>
+              <p className="text-yellow-800 mt-1">
+                {formatPriceARS(product.price)}
+              </p>
+            </Link>
           ))}
         </div>
 

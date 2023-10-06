@@ -190,7 +190,7 @@ export default function Navbar() {
   return (
     <nav className="flex justify-between items-center px-16 py-8 bg-white">
       <Link href="/">
-        <Image src={SOPHILUM_LOGOTYPE} alt="Logo" width={150} height={150} />
+        <Image src={SOPHILUM_LOGOTYPE} alt="Logo" width={170} height={170} />
       </Link>
 
       <div className="space-x-16 font-medium text-lg">

@@ -27,16 +27,19 @@ const CartPage = () => {
     return cart.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
-  const { cart, increment, decrement, removeFromCart } = useCart();
+  const { cart } = useCart();
 
   const generateWhatsAppLink = (cart: CartItem[]) => {
     let message =
       "¡Hola! ¿Cómo va? Estaba en su tienda y me gustaría comprar lo siguiente:\n\n";
+    console.log("CART", cart);
 
     cart.forEach((item) => {
-      message += `*Producto:* ${item.name}, *Cantidad:* ${
-        item.quantity
-      }, *Precio:* ${formatPriceARS(item.price)}\n`;
+      message += `*Producto:* ${item.name}, *Tamaño:* ${item.size}, *Color:* ${
+        item.color
+      }, *Cantidad:* ${item.quantity}, *Precio:* ${formatPriceARS(
+        item.price
+      )}\n`; // Incluye el tamaño y el color aquí
     });
 
     message += `\n*Total a pagar:* ${formatPriceARS(calculateTotal(cart))}\n\n`;

@@ -1,7 +1,7 @@
 import { ARROW_RIGHT, FACEBOOK, INSTAGRAM } from "@/utils/assets/icons/icons";
 import React from "react";
 import Link from "next/link";
-import { INSTAGRAM_URL } from "@/utils/constants/constants";
+import { FACEBOOK_URL, INSTAGRAM_URL } from "@/utils/constants/constants";
 
 const Footer = () => {
   return (
@@ -58,7 +58,7 @@ const Footer = () => {
             <img className="h-2" src={ARROW_RIGHT} alt="Icon 2" />
           </Link>
           <div className="flex gap-4 justify-center md:justify-end">
-            <Link href="/">
+            <Link href={FACEBOOK_URL}>
               <img className="hover-lift h-5" src={FACEBOOK} alt="Icon 2" />
             </Link>
             <Link href={INSTAGRAM_URL} target="_blank">

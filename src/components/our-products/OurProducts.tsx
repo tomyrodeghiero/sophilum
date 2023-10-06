@@ -25,7 +25,6 @@ const OurProducts = () => {
   });
 
   // Function to fetch products
-  // Function to fetch products
   async function getProducts(page = 1): Promise<any> {
     const requestOptions = {
       method: "GET",
