@@ -16,7 +16,7 @@ const Hero = () => {
         Iluminación Creativa y Profesional
       </h1>
       <h2 className="my-4 text-lg lg:text-xl text-green-900 text-center">
-        Ilumina tu obra o proyecto con nuestro equipo de ascesores especialistas
+        Ilumina tu obra o proyecto con nuestro equipo de asesores especialistas
         en iluminación.
       </h2>
       <GoToShopButton />
