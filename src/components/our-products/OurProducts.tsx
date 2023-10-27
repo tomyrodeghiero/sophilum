@@ -103,7 +103,7 @@ const OurProducts = () => {
                 {product.description}
               </p> */}
               <p className="text-lg font-semibold mt-2">
-                {formatPriceARS(product.price)}
+                $ {formatPriceARS(product.price)}
               </p>
             </div>
           </Link>
