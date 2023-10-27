@@ -9,7 +9,7 @@ import {
   INSTAGRAM,
   STARS,
 } from "@/utils/assets/icons/icons";
-import { formatPriceARS } from "@/utils/functions/functions";
+import { formatPriceARS, getPrice } from "@/utils/functions/functions";
 import React, { useEffect, useRef, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import Image from "next/image";
@@ -30,6 +30,8 @@ export default function ShopPage({ params }: { params: { id: string } }) {
   const [activeTab, setActiveTab] = useState<string>("description");
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | any>(null);
+  const [selectedMeasure, setSelectedMeasure] = useState<string | null>(null);
+  const [selectedPrice, setSelectedPrice] = useState<string | null>(null);
 
   const carouselRef = useRef<any>(null);
   const mainImageRef = useRef<any>(null);
@@ -275,8 +277,8 @@ export default function ShopPage({ params }: { params: { id: string } }) {
         <div className="flex justify-between mt-5 w-full">
           <div>
             <h1 className="text-2xl mb-2">{productID?.name}</h1>
-            <h2 className="text-yellow-800 mb-5">
-              {formatPriceARS(productID.price)}
+            <h2 className="text-xl text-gray-500 font-medium mb-4">
+              {selectedPrice || getPrice(productID)}
             </h2>
           </div>
 
@@ -402,26 +404,30 @@ export default function ShopPage({ params }: { params: { id: string } }) {
           <div className="border-b border-gray-500">
             <h1 className="text-4xl mb-2">{productID?.name}</h1>
             <h2 className="text-xl text-gray-500 font-medium mb-4">
-              {formatPriceARS(productID.price)}
+              $ {selectedPrice || getPrice(productID)}
             </h2>
+
             <img src={STARS} alt="Stars" className="w-28 mb-4" />
             <FormatText text={productID.briefDescription} />
 
-            {productID.sizes.length > 0 && (
+            {productID.measurements && productID.measurements.length > 0 && (
               <div className="flex flex-col gap-2">
-                <h2 className="mt-5 text-[0.95rem] text-gray-500">Tamaño</h2>
+                <h2 className="mt-5 text-[0.95rem] text-gray-500">Medida</h2>
                 <div className="flex gap-3">
-                  {productID.sizes.map((size: string) => (
+                  {productID.measurements.map((measure: any) => (
                     <button
-                      key={size}
+                      key={measure._id}
                       className={`py-2 px-3 rounded ${
-                        selectedSize === size
+                        selectedMeasure === measure.measure
                           ? "bg-yellow-600 text-white transition ease-in-out duration-300"
                           : "bg-rose-300 text-black transition ease-in-out duration-300"
                       }`}
-                      onClick={() => setSelectedSize(size)}
+                      onClick={() => {
+                        setSelectedMeasure(measure.measure);
+                        setSelectedPrice(measure.price);
+                      }}
                     >
-                      {size}
+                      {measure.measure}
                     </button>
                   ))}
                 </div>

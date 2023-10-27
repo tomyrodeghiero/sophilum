@@ -1,8 +1,7 @@
-import { formatPriceARS } from "@/utils/functions/functions";
+import { formatPriceARS, getPrice } from "@/utils/functions/functions";
 import Link from "next/link";
 import { NoResults } from "../no-results";
 import { SHOPPING_CART } from "@/utils/assets/icons/icons";
-import { FormatText } from "../format-text/FormatText";
 
 export const ProductDisplay = ({ products, resetFilters }: any) => {
   return (
@@ -21,7 +20,6 @@ export const ProductDisplay = ({ products, resetFilters }: any) => {
                   src={product.mainImageUrl}
                   className="h-52 lg:h-96 w-full object-cover"
                 />
-
                 <div className="product-tag absolute bottom-0 left-0 right-0 bg-gray-200 py-3 px-4 opacity-0 group-hover:opacity-60 flex items-center justify-center">
                   <img alt="product" src={SHOPPING_CART} className="h-5 mr-2" />
                   <span className="text-[0.9rem] text-black font-medium uppercase">
@@ -33,7 +31,7 @@ export const ProductDisplay = ({ products, resetFilters }: any) => {
                 <h3 className="text-xl font-medium">{product.name}</h3>
                 {/* <FormatText text="Descripción" className="text-gray-700 mb-3" /> */}
                 <p className="text-lg font-semibold mt-2">
-                  {formatPriceARS(product.price)}
+                  $ {getPrice(product)}
                 </p>
               </div>
             </Link>
