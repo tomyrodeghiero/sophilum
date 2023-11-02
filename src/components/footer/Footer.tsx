@@ -27,9 +27,6 @@ const Footer = () => {
               <Link href="/shop">
                 <span className="navlink">Tienda</span>
               </Link>
-              <Link href="/about">
-                <span className="navlink">Nosotros</span>
-              </Link>
             </div>
           </div>
 

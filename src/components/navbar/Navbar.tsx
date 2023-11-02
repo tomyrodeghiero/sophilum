@@ -153,25 +153,6 @@ export default function Navbar() {
                     alt="Drop right"
                   />
                 </div>
-
-                <div
-                  onClick={(event) => handleLinkClick(event, "/about")}
-                  className="flex justify-between border-b border-gray-400 py-7 items-center"
-                >
-                  <div className="flex gap-4">
-                    <img
-                      className="h-6 cursor-pointer"
-                      src={HISTORY}
-                      alt="Our History"
-                    />
-                    <h2 className="text-xl">Nuestra Historia</h2>
-                  </div>
-                  <img
-                    className="h-4 cursor-pointer"
-                    src={DROP_RIGHT}
-                    alt="Drop right"
-                  />
-                </div>
               </div>
             </div>
           </div>
@@ -199,9 +180,6 @@ export default function Navbar() {
         </Link>
         <Link href="/shop" className="navlink">
           Tienda
-        </Link>
-        <Link href="/about" className="navlink">
-          Nosotros
         </Link>
         <Link href="/contact" className="navlink">
           Contacto
