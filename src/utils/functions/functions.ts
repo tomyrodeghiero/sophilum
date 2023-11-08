@@ -16,15 +16,15 @@ export function formatPriceARS(price: any): any {
 }
 
 export function getPrice(product: any): number {
-  // If the product has a direct price, return it.
-  if (product.price) {
-    return formatPriceARS(product.price);
-  }
-
   // Otherwise, look into the measurements.
   if (product.measurements && product.measurements.length) {
     console.log("product->", product);
     return product.measurements[0].price;
+  }
+
+  // If the product has a direct price, return it.
+  if (product.price) {
+    return formatPriceARS(product.price);
   }
 
   // If neither condition is met, return Infinity.
