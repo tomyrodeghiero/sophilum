@@ -110,14 +110,23 @@ export default function ShopPage({ params }: { params: { id: string } }) {
       }
 
       const productDB = await response.json();
-      console.log("productDB", productDB);
       setStock(productDB.stock);
 
-      console.log("productdb", productDB);
+      // Si productDB.colors es un arreglo de strings JSON, parsear cada uno
+      if (productDB.colors && Array.isArray(productDB.colors)) {
+        productDB.colors = productDB.colors
+          .map((colorString: string) => {
+            try {
+              return JSON.parse(colorString);
+            } catch (error) {
+              console.error("Error parsing color string:", colorString);
+              return null; // o manejar el error de alguna otra manera
+            }
+          })
+          .filter((color: any) => color != null); // eliminar elementos no válidos
+      }
 
-      // set the ordered chat history instead of setting it
       setProductID(productDB);
-      console.log("products", productDB);
     } catch (error) {
       console.error("error", error);
       throw error;
@@ -174,26 +183,6 @@ export default function ShopPage({ params }: { params: { id: string } }) {
 
   const { addToCart } = useCart();
 
-  const colors = [
-    { name: "Rojo Suave", hex: "#FF6F6F" },
-    { name: "Verde Menta", hex: "#98FB98" },
-    { name: "Azul Cielo", hex: "#87CEEB" },
-    { name: "Amarillo Claro", hex: "#FFFACD" },
-    { name: "Blanco", hex: "#F5F5F5" },
-    { name: "Melocotón", hex: "#FFE5B4" },
-    { name: "Aqua", hex: "#B0E0E6" },
-    { name: "Rosado", hex: "#FFC0CB" },
-  ];
-
-  const getColorName = (hexCode: string) => {
-    const color = colors.find(
-      (c) => c.hex.toLowerCase() === hexCode.toLowerCase()
-    );
-    return color ? color.name : null;
-  };
-
-  console.log(getColorName("#FF6F6F")); // Debería imprimir "Rojo Suave"
-
   // Function to fetch products
   async function getProducts(page = 1): Promise<any> {
     const requestOptions = {
@@ -222,6 +211,8 @@ export default function ShopPage({ params }: { params: { id: string } }) {
       }
 
       const productsDB = await response.json();
+
+      "productsDB", productsDB;
       // Cuando se recuperan los productos, también se establece la información de paginación
       setProducts(productsDB.products);
       setPaginationInfo({
@@ -278,7 +269,7 @@ export default function ShopPage({ params }: { params: { id: string } }) {
           <div>
             <h1 className="text-2xl mb-2">{productID?.name}</h1>
             <h2 className="text-xl text-gray-500 font-medium mb-4">
-              {selectedPrice || getPrice(productID)}
+              {formatPriceARS(selectedPrice)}
             </h2>
           </div>
 
@@ -310,16 +301,14 @@ export default function ShopPage({ params }: { params: { id: string } }) {
             const isSizeSelected = hasSizeOptions ? selectedSize : true;
 
             if (isColorSelected && isSizeSelected) {
-              const colorName = getColorName(selectedColor);
-
               addToCart(
                 productID._id,
                 productID.name,
                 productID.price,
                 productID.mainImageUrl,
                 quantity,
-                selectedSize,
-                colorName
+                selectedMeasure,
+                selectedColor ? selectedColor.name : null
               );
               setProductAdded(true);
               showAddedToCart();
@@ -404,7 +393,7 @@ export default function ShopPage({ params }: { params: { id: string } }) {
           <div className="border-b border-gray-500">
             <h1 className="text-4xl mb-2">{productID?.name}</h1>
             <h2 className="text-xl text-gray-500 font-medium mb-4">
-              $ {selectedPrice || getPrice(productID)}
+              $ {formatPriceARS(selectedPrice)}
             </h2>
 
             <img src={STARS} alt="Stars" className="w-28 mb-4" />
@@ -434,26 +423,20 @@ export default function ShopPage({ params }: { params: { id: string } }) {
               </div>
             )}
 
-            {productID.colors.length > 0 && (
+            {productID.colors && productID.colors.length > 0 && (
               <div className="flex flex-col gap-2 mt-5">
                 <h2 className="text-[0.95rem] text-gray-500">Color</h2>
                 <div className="flex gap-3">
-                  {Array.isArray(productID.colors) ? (
-                    productID.colors.map((color: string, index: number) => (
-                      <ColorCircle
-                        key={index}
-                        color={color}
-                        selected={selectedColor === color}
-                        onClick={() => setSelectedColor(color)}
-                      />
-                    ))
-                  ) : (
+                  {productID.colors.map((color: any, index: number) => (
                     <ColorCircle
-                      color={productID.color}
-                      selected={selectedColor === productID.color}
-                      onClick={() => setSelectedColor(productID.color)}
+                      key={index}
+                      color={color.hex}
+                      selected={
+                        selectedColor && selectedColor.hex === color.hex
+                      }
+                      onClick={() => setSelectedColor(color)}
                     />
-                  )}
+                  ))}
                 </div>
               </div>
             )}
@@ -489,16 +472,14 @@ export default function ShopPage({ params }: { params: { id: string } }) {
                   const isSizeSelected = hasSizeOptions ? selectedSize : true;
 
                   if (isColorSelected && isSizeSelected) {
-                    const colorName = getColorName(selectedColor);
-
                     addToCart(
                       productID._id,
                       productID.name,
-                      productID.price,
+                      selectedPrice,
                       productID.mainImageUrl,
                       quantity,
-                      selectedSize,
-                      colorName
+                      selectedMeasure,
+                      selectedColor ? selectedColor.name : null
                     );
                     setProductAdded(true);
                     showAddedToCart();

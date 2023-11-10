@@ -1,4 +1,4 @@
-import { formatPriceARS, getPrice } from "@/utils/functions/functions";
+import { getMinPrice } from "@/utils/functions/functions";
 import Link from "next/link";
 import { NoResults } from "../no-results";
 import { SHOPPING_CART } from "@/utils/assets/icons/icons";
@@ -31,7 +31,7 @@ export const ProductDisplay = ({ products, resetFilters }: any) => {
                 <h3 className="text-xl font-medium">{product.name}</h3>
                 {/* <FormatText text="Descripción" className="text-gray-700 mb-3" /> */}
                 <p className="text-lg font-semibold mt-2">
-                  $ {getPrice(product)}
+                  $ {getMinPrice(product)}
                 </p>
               </div>
             </Link>

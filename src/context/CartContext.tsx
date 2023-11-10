@@ -8,7 +8,12 @@ type Product = {
   productId: string;
 };
 
-type CartItem = Product & { quantity: number; size: string; color: string };
+type CartItem = Product & {
+  quantity: number;
+  size: string;
+  color: string;
+  measure: string;
+};
 
 // Creación del contexto
 const CartContext = createContext({} as any);
@@ -27,11 +32,9 @@ export const CartProvider = ({ children }: any) => {
     mainImageUrl: string,
     quantity: any,
     size: string,
-    color: string
+    color: string,
+    measure: string // Add measure to the function parameters
   ) => {
-    console.log("quantity", quantity);
-    console.log("size", size);
-    console.log("color", color);
     setCart((prevCart: any) => {
       const productInCart = prevCart.find(
         (item: any) => item.productId === productId
@@ -47,7 +50,16 @@ export const CartProvider = ({ children }: any) => {
         // Si el producto no está en el carrito, añadirlo
         return [
           ...prevCart,
-          { productId, name, price, mainImageUrl, quantity, size, color }, // y aquí
+          {
+            productId,
+            name,
+            price,
+            mainImageUrl,
+            quantity,
+            size,
+            color,
+            measure,
+          },
         ];
       }
     });

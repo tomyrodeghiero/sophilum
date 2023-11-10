@@ -13,7 +13,7 @@ import Features from "@/components/features/Features";
 import Image from "next/image";
 import { DROP_RIGHT } from "@/utils/assets/icons/icons";
 import SkeletonCard from "@/components/skeleton-card";
-import { getPrice } from "@/utils/functions/functions";
+import { getMinPrice } from "@/utils/functions/functions";
 
 const ShopPage = () => {
   const searchParams = useSearchParams();
@@ -65,7 +65,7 @@ const ShopPage = () => {
       }
 
       const productsDB = await response.json();
-      console.log("productsdb", productsDB);
+      "productsdb", productsDB;
       // Cuando se recuperan los productos, también se establece la información de paginación
       setProducts(productsDB.products);
       setPaginationInfo({
@@ -91,59 +91,65 @@ const ShopPage = () => {
   useEffect(() => {
     let tempProducts = products;
 
-    // const indexOfLastProduct = currentPage * productsPerPage;
-    // const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    // const currentProducts = tempProducts.slice(
-    //   indexOfFirstProduct,
-    //   indexOfLastProduct
-    // );
+    const indexOfLastProduct = currentPage * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+    const currentProducts = tempProducts.slice(
+      indexOfFirstProduct,
+      indexOfLastProduct
+    );
 
-    // setFilteredProducts(currentProducts);
+    setFilteredProducts(currentProducts);
 
-    // // Filter products on sale
-    // if (isOnSale) {
-    //   tempProducts = tempProducts.filter((product: any) => product.isOnSale);
-    // }
+    // Filter products by search query
+    if (searchQuery) {
+      tempProducts = tempProducts.filter((product: any) =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
 
-    // // Filter products in stock
-    // if (isOnStock) {
-    //   tempProducts = tempProducts.filter((product: any) => product.stock > 0);
-    // } else {
-    //   tempProducts = tempProducts.filter((product: any) => product.stock <= 0);
-    // }
+    // Sort products
+    switch (sortByPrice) {
+      case "Menor precio":
+        tempProducts.sort(
+          (a, b) => parseFloat(getMinPrice(b)) - parseFloat(getMinPrice(a))
+        );
+        break;
+      case "Mayor precio":
+        tempProducts.sort(
+          (a, b) => parseFloat(getMinPrice(a)) - parseFloat(getMinPrice(b))
+        );
+        break;
+      default:
+        break;
+    }
+
+    // sort by category
+    if (sortByCategory) {
+      tempProducts = tempProducts.filter(
+        (product: any) =>
+          product.category.toLowerCase() === sortByCategory.toLowerCase()
+      );
+    }
 
     // // Filter products within price range
-    // tempProducts = tempProducts.filter(
-    //   (product: any) =>
-    //     getPrice(product) >= priceRange[0] && getPrice(product) <= priceRange[1]
-    // );
+    // tempProducts = tempProducts.filter((product) => {
+    //   const minPrice = parseFloat(getMinPrice(product));
+    //   console.log("MIN PRICE", minPrice);
+    //   console.log("PRICE RANGE", priceRange);
+    //   return minPrice >= priceRange[0] && minPrice <= priceRange[1];
+    // });
 
-    // // Filter products by search query
-    // if (searchQuery) {
-    //   tempProducts = tempProducts.filter((product: any) =>
-    //     product.name.toLowerCase().includes(searchQuery.toLowerCase())
-    //   );
-    // }
+    // Filter products on sale
+    if (isOnSale) {
+      tempProducts = tempProducts.filter((product: any) => product.isOnSale);
+    }
 
-    // // Filter products by category
-    // if (sortByCategory) {
-    //   tempProducts = tempProducts.filter(
-    //     (product: any) =>
-    //       product.category.toLowerCase() === sortByCategory.toLowerCase()
-    //   );
-    // }
-
-    // // Sort products
-    // switch (sortByPrice) {
-    //   case "Menor precio":
-    //     tempProducts.sort((a: any, b: any) => a.price - b.price);
-    //     break;
-    //   case "Mayor precio":
-    //     tempProducts.sort((a: any, b: any) => b.price - a.price);
-    //     break;
-    //   default:
-    //     break;
-    // }
+    // Filter products in stock
+    if (isOnStock) {
+      tempProducts = tempProducts.filter((product: any) => product.stock > 0);
+    } else {
+      tempProducts = tempProducts.filter((product: any) => product.stock <= 0);
+    }
 
     setFilteredProducts(tempProducts);
   }, [

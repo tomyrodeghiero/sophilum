@@ -27,19 +27,17 @@ const CartPage = () => {
     return cart.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
-  const { cart } = useCart();
+  const { cart, removeFromCart } = useCart();
 
   const generateWhatsAppLink = (cart: CartItem[]) => {
-    let message =
-      "¡Hola! ¿Cómo va? Estaba en su tienda y me gustaría comprar lo siguiente:\n\n";
-    console.log("CART", cart);
+    let message = "Hola, me gustaría hacer la siguiente compra:\n\n";
 
     cart.forEach((item) => {
       message += `*Producto:* ${item.name}, *Tamaño:* ${item.size}, *Color:* ${
         item.color
       }, *Cantidad:* ${item.quantity}, *Precio:* ${formatPriceARS(
         item.price
-      )}\n`; // Incluye el tamaño y el color aquí
+      )}\n`;
     });
 
     message += `\n*Total a pagar:* ${formatPriceARS(calculateTotal(cart))}\n\n`;
@@ -84,6 +82,8 @@ const CartPage = () => {
                       <th className="p-3 text-center font-medium">Producto</th>
                       <th className="p-3 text-center font-medium">Precio</th>
                       <th className="p-3 text-center font-medium">Cantidad</th>
+                      <th className="p-3 text-center font-medium">Color</th>
+                      <th className="p-3 text-center font-medium">Medidas</th>
                       <th className="p-3 text-center font-medium">Subtotal</th>
                       <th />
                     </tr>
@@ -107,6 +107,8 @@ const CartPage = () => {
                             {item.quantity}
                           </p>
                         </td>
+                        <td className="px-3 py-10 text-center">{item.color}</td>
+                        <td className="px-3 py-10 text-center">{item.size}</td>
                         <td className="px-3 py-10 text-center">
                           {formatPriceARS(item.price * item.quantity)}
                         </td>
@@ -117,6 +119,7 @@ const CartPage = () => {
                             width={20}
                             height={20}
                             className="cursor-pointer"
+                            onClick={() => removeFromCart(item.productId)}
                           />
                         </td>
                       </tr>
