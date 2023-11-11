@@ -212,7 +212,6 @@ export default function ShopPage({ params }: { params: { id: string } }) {
 
       const productsDB = await response.json();
 
-      "productsDB", productsDB;
       // Cuando se recuperan los productos, también se establece la información de paginación
       setProducts(productsDB.products);
       setPaginationInfo({
