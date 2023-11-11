@@ -65,7 +65,6 @@ const ShopPage = () => {
       }
 
       const productsDB = await response.json();
-      "productsdb", productsDB;
       // Cuando se recuperan los productos, también se establece la información de paginación
       setProducts(productsDB.products);
       setPaginationInfo({
