@@ -1,6 +1,6 @@
 "use client";
 
-import { formatPriceARS } from "@/utils/functions/functions";
+import { formatPriceARS, getMinPrice } from "@/utils/functions/functions";
 import React, { useEffect, useState } from "react";
 import SeeMoreInShopButton from "../buttons/SeeMoreInShopButton";
 import { SHOPPING_CART } from "@/utils/assets/icons/icons";
@@ -99,12 +99,11 @@ const OurProducts = () => {
             </div>
             <div className="p-4 pb-5 bg-gray-100">
               <h3 className="text-xl font-medium">{product.name}</h3>
-              {/* <p className="text-sm text-gray-600 mt-1">
-                {product.description}
-              </p> */}
-              <p className="text-lg font-semibold mt-2">
-                $ {formatPriceARS(product.price)}
-              </p>
+              {getMinPrice(product) !== 0 && (
+                <p className="text-lg font-semibold mt-2">
+                  $ {getMinPrice(product)}
+                </p>
+              )}
             </div>
           </Link>
         ))}

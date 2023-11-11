@@ -4,7 +4,6 @@ import {
   HASHTAG_01,
   HASHTAG_02,
   HASHTAG_03,
-  HASHTAG_04,
   HASHTAG_05,
   HASHTAG_06,
   HASHTAG_07,
@@ -13,6 +12,15 @@ import {
 } from "@/utils/assets/hashtag/hashtag";
 
 const SophilumHashtag = () => {
+  // Configuraciones para el carrusel
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+
   return (
     <div className="hidden lg:block relative bg-white w-full pt-8 pb-32">
       <h2 className="text-stone-300 text-lg font-semibold text-center">
@@ -22,7 +30,8 @@ const SophilumHashtag = () => {
         #Sophilum
       </h3>
 
-      <div className="collage-container relative w-full h-[45rem]">
+      {/* Collage for Desktop */}
+      <div className="hidden lg:block relative collage-container w-full h-[45rem]">
         <Image
           className="hashtag-img hashtag-1 rounded"
           src={HASHTAG_01}
@@ -44,13 +53,6 @@ const SophilumHashtag = () => {
           width={200}
           height={200}
         />
-        {/* <Image
-          className="hashtag-img hashtag-4 rounded"
-          src={HASHTAG_04}
-          alt="Hashtag 4"
-          width={200}
-          height={200}
-        /> */}
         <Image
           className="hashtag-img hashtag-5 rounded"
           src={HASHTAG_05}

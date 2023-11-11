@@ -65,7 +65,6 @@ const ShopPage = () => {
       }
 
       const productsDB = await response.json();
-      // Cuando se recuperan los productos, también se establece la información de paginación
       setProducts(productsDB.products);
       setPaginationInfo({
         currentPage: productsDB.currentPage,
@@ -85,7 +84,7 @@ const ShopPage = () => {
   }, [paginationInfo.currentPage]);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 10; // Cambia esto según tus necesidades
+  const productsPerPage = 9; // Cambia esto según tus necesidades
 
   useEffect(() => {
     let tempProducts = products;

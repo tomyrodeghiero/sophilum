@@ -22,17 +22,19 @@ const Features = () => {
       <div className="flex flex-col lg:flex-row items-center gap-4 mb-5 lg:mb-0 text-center lg:text-left">
         <Image src={WARRANTY} alt="Logo" width={75} height={75} />
         <div className="flex flex-col gap-1">
-          <h2 className="font-medium text-2xl">Garantía</h2>
-          <p className="font-medium text-lg text-gray-600">Hasta 6 meses</p>
+          <h2 className="font-medium text-2xl">Compromiso</h2>
+          <p className="font-medium text-lg text-gray-600">
+            Satisfacción Garantizada
+          </p>
         </div>
       </div>
 
       <div className="flex flex-col lg:flex-row items-center gap-4 mb-10 lg:mb-0 text-center lg:text-left">
         <Image src={FREE_SHIPPING} alt="Logo" width={75} height={75} />
         <div className="flex flex-col gap-1">
-          <h2 className="font-medium text-2xl">Envío Gratis</h2>
+          <h2 className="font-medium text-2xl">Servicio Eficiente</h2>
           <p className="font-medium text-lg text-gray-600">
-            Compras mayores a $200.000
+            Entrega Profesional
           </p>
         </div>
       </div>

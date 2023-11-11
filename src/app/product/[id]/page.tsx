@@ -9,7 +9,7 @@ import {
   INSTAGRAM,
   STARS,
 } from "@/utils/assets/icons/icons";
-import { formatPriceARS, getPrice } from "@/utils/functions/functions";
+import { formatPriceARS } from "@/utils/functions/functions";
 import React, { useEffect, useRef, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import Image from "next/image";
@@ -124,6 +124,16 @@ export default function ShopPage({ params }: { params: { id: string } }) {
             }
           })
           .filter((color: any) => color != null); // eliminar elementos no válidos
+      }
+
+      if (productDB.measurements && productDB.measurements.length > 0) {
+        const minPricedMeasure = productDB.measurements.reduce(
+          (min: any, current: any) =>
+            current.price < min.price ? current : min
+        );
+
+        setSelectedMeasure(minPricedMeasure.measure);
+        setSelectedPrice(minPricedMeasure.price);
       }
 
       setProductID(productDB);
@@ -257,7 +267,7 @@ export default function ShopPage({ params }: { params: { id: string } }) {
                 <img
                   src={image}
                   alt={`product-image-${index}`}
-                  className="w-full object-cover h-[400px] rounded-lg"
+                  className="w-full object-cover rounded-lg"
                 />
               </div>
             )
@@ -377,7 +387,7 @@ export default function ShopPage({ params }: { params: { id: string } }) {
               key={index}
               src={image}
               alt={`product-image-${index}`}
-              className="rounded-lg w-32"
+              className="rounded-lg w-32 object-cover"
             />
           ))}
         </div>
@@ -385,7 +395,7 @@ export default function ShopPage({ params }: { params: { id: string } }) {
           <img
             src={productID.mainImageUrl}
             alt="main-product-image"
-            className="w-full h-full rounded-lg"
+            className="w-full object-cover rounded-lg"
           />
         </div>
         <div className="md:w-[45%] pl-4">

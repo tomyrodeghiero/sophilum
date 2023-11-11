@@ -29,10 +29,11 @@ export const ProductDisplay = ({ products, resetFilters }: any) => {
               </div>
               <div className="p-4 pb-5 bg-gray-100">
                 <h3 className="text-xl font-medium">{product.name}</h3>
-                {/* <FormatText text="Descripción" className="text-gray-700 mb-3" /> */}
-                <p className="text-lg font-semibold mt-2">
-                  $ {getMinPrice(product)}
-                </p>
+                {getMinPrice(product) !== 0 && (
+                  <p className="text-lg font-semibold mt-2">
+                    $ {getMinPrice(product)}
+                  </p>
+                )}
               </div>
             </Link>
           ))}

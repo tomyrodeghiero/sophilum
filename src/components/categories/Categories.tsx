@@ -4,6 +4,7 @@ import {
   IMAGE_03,
 } from "@/utils/assets/categories/categories";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const Categories = () => {
@@ -17,42 +18,45 @@ const Categories = () => {
       </h4>
 
       <div className="grid grid-cols-3 gap-4 my-5">
-        <div className="rounded py-2 overflow-hidden flex flex-col justify-center items-center transform transition-transform duration-300 hover:scale-105 hover:shadow cursor-pointer">
-          <Image
+        <Link
+          href="/shop"
+          className="rounded py-2 overflow-hidden flex flex-col justify-center items-center transform transition-transform duration-300 hover:scale-105 hover:shadow cursor-pointer"
+        >
+          <img
             src={IMAGE_01}
-            alt="Imagen 1"
-            width={350}
-            height={350}
-            className="rounded-lg"
+            alt="Image 1"
+            className="lg:w-[375px] lg:h-[375px] w-[135px] h-[135px] rounded-lg"
           />
           <p className="text-center text-lg lg:text-xl font-medium mt-4">
             Comedor
           </p>
-        </div>
-        <div className="rounded py-2 overflow-hidden flex flex-col justify-center items-center transform transition-transform duration-300 hover:scale-105 hover:shadow cursor-pointer">
-          <Image
+        </Link>
+        <Link
+          href="/shop"
+          className="rounded py-2 overflow-hidden flex flex-col justify-center items-center transform transition-transform duration-300 hover:scale-105 hover:shadow cursor-pointer"
+        >
+          <img
             src={IMAGE_02}
-            alt="Imagen 2"
-            width={350}
-            height={350}
-            className="rounded-lg"
+            alt="Image 2"
+            className="lg:w-[375px] lg:h-[375px] w-[135px] h-[135px] rounded-lg"
           />
           <p className="text-center text-lg lg:text-xl font-medium mt-4">
             Living
           </p>
-        </div>
-        <div className="rounded py-2 overflow-hidden flex flex-col justify-center items-center transform transition-transform duration-300 hover:scale-105 hover:shadow cursor-pointer">
-          <Image
+        </Link>
+        <Link
+          href="/shop"
+          className="rounded py-2 overflow-hidden flex flex-col justify-center items-center transform transition-transform duration-300 hover:scale-105 hover:shadow cursor-pointer"
+        >
+          <img
             src={IMAGE_03}
-            alt="Imagen 3"
-            width={350}
-            height={350}
-            className="rounded-lg"
+            alt="Image 3"
+            className="lg:w-[375px] lg:h-[375px] w-[135px] h-[135px] rounded-lg"
           />
           <p className="text-center text-lg lg:text-xl font-medium mt-4">
             Dormitorio
           </p>
-        </div>
+        </Link>
       </div>
     </div>
   );

@@ -7,6 +7,8 @@ import {
   BACKGROUND,
   SOPHILUM_LOGOTYPE_BACKGROUND,
 } from "@/utils/assets/images";
+import { PHONE_NUMBER } from "@/utils/constants/constants";
+import { formatPhoneNumber } from "@/utils/functions/functions";
 import Image from "next/image";
 import React from "react";
 
@@ -48,7 +50,7 @@ const ContactPage = () => {
               <Image src={PHONE} alt="Logo" width={25} height={25} />
               <div className="flex flex-col text-sm">
                 <h3 className="font-medium text-xl mb-2">Celular</h3>
-                <p>Número: +(54) 9 358 429-6532</p>
+                <p>Número: {formatPhoneNumber(PHONE_NUMBER)}</p>
               </div>
             </div>
 
