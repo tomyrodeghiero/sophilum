@@ -109,12 +109,12 @@ const ShopPage = () => {
     switch (sortByPrice) {
       case "Menor precio":
         tempProducts.sort(
-          (a, b) => parseFloat(getMinPrice(b)) - parseFloat(getMinPrice(a))
+          (a, b) => parseFloat(getMinPrice(a)) - parseFloat(getMinPrice(b))
         );
         break;
       case "Mayor precio":
         tempProducts.sort(
-          (a, b) => parseFloat(getMinPrice(a)) - parseFloat(getMinPrice(b))
+          (a, b) => parseFloat(getMinPrice(b)) - parseFloat(getMinPrice(a))
         );
         break;
       default:
