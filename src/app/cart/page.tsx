@@ -33,8 +33,8 @@ const CartPage = () => {
     let message = "Hola, me gustaría hacer la siguiente compra:\n\n";
 
     cart.forEach((item) => {
-      message += `*Producto:* ${item.name}, *Tamaño:* ${item.size}, *Color:* ${
-        item.color
+      message += `*Producto:* ${item.name}, *Tamaño:* ${
+        item.size
       }, *Cantidad:* ${item.quantity}, *Precio:* ${formatPriceARS(
         item.price
       )}\n`;
@@ -82,7 +82,6 @@ const CartPage = () => {
                       <th className="p-3 text-center font-medium">Producto</th>
                       <th className="p-3 text-center font-medium">Precio</th>
                       <th className="p-3 text-center font-medium">Cantidad</th>
-                      <th className="p-3 text-center font-medium">Color</th>
                       <th className="p-3 text-center font-medium">Medidas</th>
                       <th className="p-3 text-center font-medium">Subtotal</th>
                       <th />
@@ -107,7 +106,6 @@ const CartPage = () => {
                             {item.quantity}
                           </p>
                         </td>
-                        <td className="px-3 py-10 text-center">{item.color}</td>
                         <td className="px-3 py-10 text-center">{item.size}</td>
                         <td className="px-3 py-10 text-center">
                           {formatPriceARS(item.price * item.quantity)}

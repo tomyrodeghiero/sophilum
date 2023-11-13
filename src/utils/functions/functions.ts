@@ -79,3 +79,27 @@ export const formatPhoneNumber = (number: string) => {
   // Formatear el número
   return `+(${countryCode}) ${mobilePrefix} ${areaCode} ${firstPart}-${secondPart}`;
 };
+
+// function to delete duplicate colors
+export const removeDuplicateColors = (product: any) => {
+  // Use reduce to iterate over the colors and accumulate unique ones
+  const uniqueColors = product.colors.reduce(
+    (accumulator: string[], currentColor: string) => {
+      // Convert the current color to lowercase for consistent comparison
+      const colorInLowercase = currentColor.toLowerCase();
+
+      // If the lowercase version of the color is not in the accumulator, add it
+      if (!accumulator.includes(colorInLowercase)) {
+        accumulator.push(colorInLowercase);
+      }
+
+      return accumulator;
+    },
+    [] as string[] // Initialize the accumulator as an empty string array
+  );
+
+  return {
+    ...product,
+    colors: uniqueColors,
+  };
+};

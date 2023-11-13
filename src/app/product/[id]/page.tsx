@@ -9,7 +9,10 @@ import {
   INSTAGRAM,
   STARS,
 } from "@/utils/assets/icons/icons";
-import { formatPriceARS } from "@/utils/functions/functions";
+import {
+  formatPriceARS,
+  removeDuplicateColors,
+} from "@/utils/functions/functions";
 import React, { useEffect, useRef, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import Image from "next/image";
@@ -110,21 +113,8 @@ export default function ShopPage({ params }: { params: { id: string } }) {
       }
 
       const productDB = await response.json();
+      console.log("productDB  .......", productDB);
       setStock(productDB.stock);
-
-      // Si productDB.colors es un arreglo de strings JSON, parsear cada uno
-      if (productDB.colors && Array.isArray(productDB.colors)) {
-        productDB.colors = productDB.colors
-          .map((colorString: string) => {
-            try {
-              return JSON.parse(colorString);
-            } catch (error) {
-              console.error("Error parsing color string:", colorString);
-              return null; // o manejar el error de alguna otra manera
-            }
-          })
-          .filter((color: any) => color != null); // eliminar elementos no válidos
-      }
 
       if (productDB.measurements && productDB.measurements.length > 0) {
         const minPricedMeasure = productDB.measurements.reduce(
@@ -436,16 +426,16 @@ export default function ShopPage({ params }: { params: { id: string } }) {
               <div className="flex flex-col gap-2 mt-5">
                 <h2 className="text-[0.95rem] text-gray-500">Color</h2>
                 <div className="flex gap-3">
-                  {productID.colors.map((color: any, index: number) => (
-                    <ColorCircle
-                      key={index}
-                      color={color.hex}
-                      selected={
-                        selectedColor && selectedColor.hex === color.hex
-                      }
-                      onClick={() => setSelectedColor(color)}
-                    />
-                  ))}
+                  {removeDuplicateColors(productID).colors.map(
+                    (color: string, index: number) => (
+                      <ColorCircle
+                        key={index}
+                        color={color}
+                        selected={selectedColor === color}
+                        onClick={() => setSelectedColor(color)}
+                      />
+                    )
+                  )}
                 </div>
               </div>
             )}
