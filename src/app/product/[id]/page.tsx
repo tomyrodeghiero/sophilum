@@ -124,9 +124,16 @@ export default function ShopPage({ params }: { params: { id: string } }) {
 
       // Parse the color data if it exists
       if (productDB.colors && Array.isArray(productDB.colors)) {
-        const parsedColors = productDB.colors.map((color: any) =>
-          JSON.parse(color)
-        );
+        const parsedColors = productDB.colors.map((color: any) => {
+          try {
+            return JSON.parse(color);
+          } catch (e) {
+            console.error('Failed to parse color:', color, e);
+            // Handle the error or return the original value
+            return color;
+          }
+        });
+        
         productDB.colors = parsedColors;
       }
 
