@@ -436,7 +436,7 @@ export default function ShopPage({ params }: { params: { id: string } }) {
             {productID.colors && productID.colors.length > 0 && (
               <div className="flex flex-col gap-2 mt-5">
                 <h2 className="text-[0.95rem] text-gray-500">Color</h2>
-                <div className="flex gap-3 mt-5">
+                <div className="flex gap-3 mt-2">
                   {productID.colors.map((color: any, index: number) => (
                     <ColorCircle
                       key={index}
