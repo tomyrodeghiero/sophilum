@@ -29,9 +29,13 @@ export const ProductDisplay = ({ products, resetFilters }: any) => {
               </div>
               <div className="p-4 pb-5 bg-gray-100">
                 <h3 className="text-xl font-medium">{product.name}</h3>
-                {getMinPrice(product) !== 0 && (
+                {getMinPrice(product) !== 0 ? (
                   <p className="text-lg font-semibold mt-2">
                     $ {getMinPrice(product)}
+                  </p>
+                ) : (
+                  <p className="text-lg text-transparent font-semibold mt-2">
+                    Sin Precio
                   </p>
                 )}
               </div>

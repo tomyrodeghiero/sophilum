@@ -1,11 +1,10 @@
 "use client";
 
-import { formatPriceARS, getMinPrice } from "@/utils/functions/functions";
+import { getMinPrice } from "@/utils/functions/functions";
 import React, { useEffect, useState } from "react";
 import SeeMoreInShopButton from "../buttons/SeeMoreInShopButton";
 import { SHOPPING_CART } from "@/utils/assets/icons/icons";
 import Link from "next/link";
-import { FormatText } from "../format-text/FormatText";
 
 type Product = {
   mainImageUrl: string;
@@ -99,9 +98,13 @@ const OurProducts = () => {
             </div>
             <div className="p-4 pb-5 bg-gray-100">
               <h3 className="text-xl font-medium">{product.name}</h3>
-              {getMinPrice(product) !== 0 && (
+              {getMinPrice(product) !== 0 ? (
                 <p className="text-lg font-semibold mt-2">
                   $ {getMinPrice(product)}
+                </p>
+              ) : (
+                <p className="text-lg text-transparent font-semibold mt-2">
+                  Sin Precio
                 </p>
               )}
             </div>
