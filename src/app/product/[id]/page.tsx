@@ -1,4 +1,4 @@
-"use client";
+"use server";
 
 import SeeMoreInShopButton from "@/components/buttons/SeeMoreInShopButton";
 import { FormatText } from "@/components/format-text/FormatText";
