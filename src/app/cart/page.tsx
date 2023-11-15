@@ -33,14 +33,16 @@ const CartPage = () => {
     let message = "Hola, me gustaría hacer la siguiente compra:\n\n";
 
     cart.forEach((item) => {
-      message += `*Producto:* ${item.name}, *Tamaño:* ${
+      message += `*Producto:* ${item.name}, *Color:* ${item.color} *Tamaño:* ${
         item.size
-      }, *Cantidad:* ${item.quantity}, *Precio:* ${formatPriceARS(
+      }, *Cantidad:* ${item.quantity}, *Precio:* $ ${formatPriceARS(
         item.price
       )}\n`;
     });
 
-    message += `\n*Total a pagar:* ${formatPriceARS(calculateTotal(cart))}\n\n`;
+    message += `\n*Total a pagar:* $ ${formatPriceARS(
+      calculateTotal(cart)
+    )}\n\n`;
     message += "¡Gracias!";
 
     const phone = PHONE_NUMBER;
@@ -82,6 +84,7 @@ const CartPage = () => {
                       <th className="p-3 text-center font-medium">Producto</th>
                       <th className="p-3 text-center font-medium">Precio</th>
                       <th className="p-3 text-center font-medium">Cantidad</th>
+                      <th className="p-3 text-center font-medium">Color</th>
                       <th className="p-3 text-center font-medium">Medidas</th>
                       <th className="p-3 text-center font-medium">Subtotal</th>
                       <th />
@@ -99,16 +102,17 @@ const CartPage = () => {
                         </td>
                         <td className="px-3 py-10 text-center">{item.name}</td>
                         <td className="px-3 py-10 text-center">
-                          {formatPriceARS(item.price)}
+                          $ {formatPriceARS(item.price)}
                         </td>
                         <td className="px-3 py-10 text-center">
                           <p className="rounded border inline justify-center items-center py-1 px-3 border-gray-500">
                             {item.quantity}
                           </p>
                         </td>
+                        <td className="px-3 py-10 text-center">{item.color}</td>
                         <td className="px-3 py-10 text-center">{item.size}</td>
                         <td className="px-3 py-10 text-center">
-                          {formatPriceARS(item.price * item.quantity)}
+                          $ {formatPriceARS(item.price * item.quantity)}
                         </td>
                         <td className="px-3 py-10 text-center">
                           <Image
@@ -134,14 +138,14 @@ const CartPage = () => {
               <div className="flex justify-between mb-6 text-sm">
                 <p className="font-medium">Subtotal</p>
                 <p className="text-gray-500 font-normal">
-                  {formatPriceARS(calculateTotal(cart))}
+                  $ {formatPriceARS(calculateTotal(cart))}
                 </p>
               </div>
 
               <div className="flex justify-between font-medium mb-5">
                 <p className="text-sm">Total</p>
                 <p className="text-lg text-yellow-600">
-                  {formatPriceARS(calculateTotal(cart))}
+                  $ {formatPriceARS(calculateTotal(cart))}
                 </p>
               </div>
 

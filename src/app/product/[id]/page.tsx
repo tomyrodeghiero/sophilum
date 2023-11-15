@@ -9,17 +9,14 @@ import {
   INSTAGRAM,
   STARS,
 } from "@/utils/assets/icons/icons";
-import {
-  formatPriceARS,
-  removeDuplicateColors,
-} from "@/utils/functions/functions";
+import { FACEBOOK_URL, INSTAGRAM_URL } from "@/utils/constants/constants";
+import { formatPriceARS } from "@/utils/functions/functions";
 import React, { useEffect, useRef, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import Image from "next/image";
 import { ToastContainer, toast } from "react-toastify";
 import { useCart } from "@/context/CartContext";
 import Link from "next/link";
-import { FACEBOOK_URL, INSTAGRAM_URL } from "@/utils/constants/constants";
 import ColorCircle from "@/components/color-circle";
 
 type Product = {
@@ -113,7 +110,6 @@ export default function ShopPage({ params }: { params: { id: string } }) {
       }
 
       const productDB = await response.json();
-      console.log("productDB  .......", productDB);
       setStock(productDB.stock);
 
       if (productDB.measurements && productDB.measurements.length > 0) {
@@ -124,6 +120,14 @@ export default function ShopPage({ params }: { params: { id: string } }) {
 
         setSelectedMeasure(minPricedMeasure.measure);
         setSelectedPrice(minPricedMeasure.price);
+      }
+
+      // Parse the color data if it exists
+      if (productDB.colors && Array.isArray(productDB.colors)) {
+        const parsedColors = productDB.colors.map((color: any) =>
+          JSON.parse(color)
+        );
+        productDB.colors = parsedColors;
       }
 
       setProductID(productDB);
@@ -425,17 +429,15 @@ export default function ShopPage({ params }: { params: { id: string } }) {
             {productID.colors && productID.colors.length > 0 && (
               <div className="flex flex-col gap-2 mt-5">
                 <h2 className="text-[0.95rem] text-gray-500">Color</h2>
-                <div className="flex gap-3">
-                  {removeDuplicateColors(productID).colors.map(
-                    (color: string, index: number) => (
-                      <ColorCircle
-                        key={index}
-                        color={color}
-                        selected={selectedColor === color}
-                        onClick={() => setSelectedColor(color)}
-                      />
-                    )
-                  )}
+                <div className="flex gap-3 mt-5">
+                  {productID.colors.map((color: any, index: number) => (
+                    <ColorCircle
+                      key={index}
+                      color={color.hex}
+                      selected={selectedColor === color}
+                      onClick={() => setSelectedColor(color)}
+                    />
+                  ))}
                 </div>
               </div>
             )}
