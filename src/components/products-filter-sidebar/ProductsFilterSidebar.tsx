@@ -11,7 +11,7 @@ const SearchBar = ({ onSearch, searchQuery }: any) => {
       <input
         type="text"
         placeholder="Buscar..."
-        className="placeholder-gray-700 font-normal border-b border-gray-300 w-full pr-10 py-2"
+        className="placeholder-gray-700 px-2 focus:outline-[#808695] font-normal border-b border-gray-300 w-full pr-10 py-2"
         style={{ lineHeight: "1.5" }}
         value={searchQuery}
         onChange={(e) => onSearch(e.target.value)}
@@ -111,9 +111,9 @@ export const ProductsFilterSidebar = ({
           onFilter={onSortByCateogory}
           label="Ordenar por"
         />
-        <PriceSlider onFilter={onPriceChange} />
+        {/* <PriceSlider onFilter={onPriceChange} /> */}
 
-        <div className="flex lg:flex-col justify-between lg:gap-5">
+        <div className="flex lg:flex-col justify-between lg:gap-5 mt-5">
           <Checkbox
             label="En oferta"
             checked={isOnSale}

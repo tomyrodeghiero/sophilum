@@ -128,12 +128,12 @@ export default function ShopPage({ params }: { params: { id: string } }) {
           try {
             return JSON.parse(color);
           } catch (e) {
-            console.error('Failed to parse color:', color, e);
+            console.error("Failed to parse color:", color, e);
             // Handle the error or return the original value
             return color;
           }
         });
-        
+
         productDB.colors = parsedColors;
       }
 
@@ -279,7 +279,7 @@ export default function ShopPage({ params }: { params: { id: string } }) {
           <div>
             <h1 className="text-2xl mb-2">{productID?.name}</h1>
             <h2 className="text-xl text-gray-500 font-medium mb-4">
-              {formatPriceARS(selectedPrice)}
+              $ {formatPriceARS(selectedPrice)}
             </h2>
           </div>
 
@@ -350,7 +350,7 @@ export default function ShopPage({ params }: { params: { id: string } }) {
         </button>
 
         <FormatText
-          text={productID.briefDescription}
+          text={productID.additionalInformation}
           className="text-gray-700 my-7"
         />
 
@@ -382,17 +382,25 @@ export default function ShopPage({ params }: { params: { id: string } }) {
 
       {/* Original layout on Desktop */}
       <div className="hidden lg:flex justify-between gap-4 my-8 px-24 relative">
-        <div className="flex flex-col space-y-4 hide-scrollbar scroll-container">
-          {productID.secondaryImageUrls.map((image: any, index: number) => (
-            <img
-              key={index}
-              src={image}
-              alt={`product-image-${index}`}
-              className="rounded-lg w-32 object-cover"
-            />
-          ))}
-        </div>
-        <div className="md:w-[40%]">
+        {productID.secondaryImageUrls.length > 0 && (
+          <div className="flex flex-col space-y-4 hide-scrollbar scroll-container">
+            {productID.secondaryImageUrls.map((image: any, index: number) => (
+              <img
+                key={index}
+                src={image}
+                alt={`product-image-${index}`}
+                className="rounded-lg w-32 object-cover"
+              />
+            ))}
+          </div>
+        )}
+        <div
+          className={`${
+            productID.secondaryImageUrls.length > 0
+              ? "md:w-[40%]"
+              : "md:w-[50%]"
+          }`}
+        >
           <img
             src={productID.mainImageUrl}
             alt="main-product-image"
@@ -402,12 +410,14 @@ export default function ShopPage({ params }: { params: { id: string } }) {
         <div className="md:w-[45%] pl-4">
           <div className="border-b border-gray-500">
             <h1 className="text-4xl mb-2">{productID?.name}</h1>
-            <h2 className="text-xl text-gray-500 font-medium mb-4">
-              $ {formatPriceARS(selectedPrice)}
-            </h2>
+            {formatPriceARS(selectedPrice) != "0,00" && (
+              <h2 className="text-xl text-gray-500 font-medium mb-4">
+                $ {formatPriceARS(selectedPrice)}
+              </h2>
+            )}
 
             <img src={STARS} alt="Stars" className="w-28 mb-4" />
-            <FormatText text={productID.briefDescription} />
+            <FormatText text={productID.additionalInformation} />
 
             {productID.measurements && productID.measurements.length > 0 && (
               <div className="flex flex-col gap-2">
@@ -433,21 +443,23 @@ export default function ShopPage({ params }: { params: { id: string } }) {
               </div>
             )}
 
-            {productID.colors && productID.colors.length > 0 && (
-              <div className="flex flex-col gap-2 mt-5">
-                <h2 className="text-[0.95rem] text-gray-500">Color</h2>
-                <div className="flex gap-3 mt-2">
-                  {productID.colors.map((color: any, index: number) => (
-                    <ColorCircle
-                      key={index}
-                      color={color.hex}
-                      selected={selectedColor === color}
-                      onClick={() => setSelectedColor(color)}
-                    />
-                  ))}
+            {productID.colors &&
+              productID.colors[0] != "#8B4513" &&
+              productID.colors.length > 0 && (
+                <div className="flex flex-col gap-2 mt-5">
+                  <h2 className="text-[0.95rem] text-gray-500">Color</h2>
+                  <div className="flex gap-3 mt-2">
+                    {productID.colors.map((color: any, index: number) => (
+                      <ColorCircle
+                        key={index}
+                        color={color.hex}
+                        selected={selectedColor === color}
+                        onClick={() => setSelectedColor(color)}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
             <div className="flex items-center my-7 justify-start gap-4">
               <div className="flex w-28 h-12 text-gray-700 justify-between rounded-lg border border-gray-500 items-center gap-2 p-2">
@@ -602,7 +614,7 @@ export default function ShopPage({ params }: { params: { id: string } }) {
               />
               <h4 className="mt-4 w-full truncate">{product?.name}</h4>
               <p className="text-yellow-800 mt-1">
-                {formatPriceARS(product.price)}
+                $ {formatPriceARS(product.price)}
               </p>
             </Link>
           ))}
