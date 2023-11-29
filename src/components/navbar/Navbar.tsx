@@ -187,14 +187,6 @@ export default function Navbar() {
       </div>
 
       <div className="flex space-x-8">
-        <Image
-          className="cursor-pointer"
-          src={SEARCH}
-          alt="Search"
-          width={30}
-          height={30}
-          onClick={() => setSearchOpen(true)}
-        />
         <Link href="/cart">
           <div className="relative">
             <Image src={SHOPPING_CART} alt="Cart" width={30} height={30} />
