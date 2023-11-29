@@ -16,6 +16,8 @@ import SkeletonCard from "@/components/skeleton-card";
 import { getMinPrice } from "@/utils/functions/functions";
 
 const ShopPage = () => {
+  const PRODUCTS_PER_PAGE = 9; // Cambia esto según tus necesidades
+
   const searchParams = useSearchParams();
   const searchQueryParam = searchParams.get("search");
   const categoryQueryParam = searchParams.get("category");
@@ -27,18 +29,14 @@ const ShopPage = () => {
   const [isOnStock, setIsOnStock] = useState(true);
   const [priceRange, setPriceRange] = useState([0, Infinity]);
   const [sortByPrice, setSortByPrice] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState(searchQueryParam || "");
   const [sortByCategory, setSortByCategory] = useState(
     categoryQueryParam || ""
   );
-  const [paginationInfo, setPaginationInfo] = useState({
-    currentPage: 1,
-    totalPages: 1,
-    totalProducts: 0,
-  });
 
   // Function to fetch products
-  async function getProducts(page = 1): Promise<any> {
+  async function getProducts(): Promise<any> {
     const requestOptions = {
       method: "GET",
       headers: {
@@ -48,7 +46,7 @@ const ShopPage = () => {
 
     try {
       const response = await fetch(
-        `/api/products?page=${page}&limit=${productsPerPage}`,
+        `/api/products?page=1&limit=200`,
         requestOptions
       );
 
@@ -65,12 +63,8 @@ const ShopPage = () => {
       }
 
       const productsDB = await response.json();
+      console.log("productsDB", productsDB);
       setProducts(productsDB.products);
-      setPaginationInfo({
-        currentPage: productsDB.currentPage,
-        totalPages: productsDB.totalPages,
-        totalProducts: productsDB.totalProducts,
-      });
     } catch (error) {
       console.error("error", error);
       throw error;
@@ -80,25 +74,12 @@ const ShopPage = () => {
   }
 
   useEffect(() => {
-    getProducts(paginationInfo.currentPage);
-  }, [paginationInfo.currentPage]);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 9; // Cambia esto según tus necesidades
+    getProducts();
+  }, []);
 
   useEffect(() => {
-    let tempProducts = products;
+    let tempProducts = [...products];
 
-    const indexOfLastProduct = currentPage * productsPerPage;
-    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    const currentProducts = tempProducts.slice(
-      indexOfFirstProduct,
-      indexOfLastProduct
-    );
-
-    setFilteredProducts(currentProducts);
-
-    // Filter products by search query
     if (searchQuery) {
       tempProducts = tempProducts.filter((product: any) =>
         product.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -111,11 +92,13 @@ const ShopPage = () => {
         tempProducts.sort(
           (a, b) => parseFloat(getMinPrice(a)) - parseFloat(getMinPrice(b))
         );
+        setFilteredProducts(tempProducts);
         break;
       case "Mayor precio":
         tempProducts.sort(
           (a, b) => parseFloat(getMinPrice(b)) - parseFloat(getMinPrice(a))
         );
+        setFilteredProducts(tempProducts);
         break;
       default:
         break;
@@ -127,15 +110,9 @@ const ShopPage = () => {
         (product: any) =>
           product.category.toLowerCase() === sortByCategory.toLowerCase()
       );
-    }
 
-    // // Filter products within price range
-    // tempProducts = tempProducts.filter((product) => {
-    //   const minPrice = parseFloat(getMinPrice(product));
-    //   console.log("MIN PRICE", minPrice);
-    //   console.log("PRICE RANGE", priceRange);
-    //   return minPrice >= priceRange[0] && minPrice <= priceRange[1];
-    // });
+      setFilteredProducts(tempProducts);
+    }
 
     // Filter products on sale
     if (isOnSale) {
@@ -149,8 +126,23 @@ const ShopPage = () => {
       tempProducts = tempProducts.filter((product: any) => product.stock <= 0);
     }
 
-    setFilteredProducts(tempProducts);
+    const indexOfLastProduct = currentPage * PRODUCTS_PER_PAGE;
+    const indexOfFirstProduct = indexOfLastProduct - PRODUCTS_PER_PAGE;
+    const currentProducts = tempProducts.slice(
+      indexOfFirstProduct,
+      indexOfLastProduct
+    );
+
+    setFilteredProducts(currentProducts);
+
+    if (searchQuery) {
+      tempProducts = tempProducts.filter((product: any) =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredProducts(tempProducts);
+    }
   }, [
+    currentPage,
     products,
     isOnSale,
     isOnStock,
@@ -158,9 +150,6 @@ const ShopPage = () => {
     sortByPrice,
     sortByCategory,
     searchQuery,
-    searchQueryParam,
-    categoryQueryParam,
-    currentPage,
   ]);
 
   const resetFilters = () => {
@@ -175,6 +164,21 @@ const ShopPage = () => {
   const path = "Inicio - Tienda";
 
   const pathParts = path.split("-");
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    setSearchQuery("");
+    setSortByCategory("");
+    setSortByPrice("");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // Calculate the total number of pages
+  const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
+  console.log("products", products);
+  console.log("products.length", products.length);
+  console.log("PRODUCTS_PER_PAGE", PRODUCTS_PER_PAGE);
+  console.log("TOTAL PAGES", totalPages);
 
   return (
     <div>
@@ -227,47 +231,23 @@ const ShopPage = () => {
               />
             )}
 
-            {filteredProducts.length > 0 && (
+            {totalPages > 1 && (
               <div className="flex justify-center my-8 lg:mb-0 w-full">
-                {Array.from({ length: paginationInfo.totalPages }).map(
-                  (_, index) => (
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                  (page) => (
                     <button
-                      key={index + 1}
-                      onClick={() => {
-                        setPaginationInfo({
-                          ...paginationInfo,
-                          currentPage: index + 1,
-                        });
-                        window.scrollTo({
-                          top: 390,
-                          behavior: "smooth",
-                        });
-                      }}
+                      key={page}
+                      onClick={() => handlePageChange(page)}
                       className={`px-4 py-2 mx-2 rounded ${
-                        paginationInfo.currentPage === index + 1
+                        currentPage === page
                           ? "bg-yellow-600 text-white"
                           : "bg-gray-200"
                       }`}
                     >
-                      {index + 1}
+                      {page}
                     </button>
                   )
                 )}
-                <button
-                  onClick={() => {
-                    if (
-                      paginationInfo.currentPage < paginationInfo.totalPages
-                    ) {
-                      setPaginationInfo({
-                        ...paginationInfo,
-                        currentPage: paginationInfo.currentPage + 1,
-                      });
-                    }
-                  }}
-                  className="px-4 py-2 rounded mx-2 bg-gray-200"
-                >
-                  Siguiente
-                </button>
               </div>
             )}
           </div>
