@@ -7,10 +7,8 @@ import { SOPHILUM_LOGOTYPE, SPAIN } from "@/utils/assets/images";
 import {
   CLOSE_MENU,
   DROP_RIGHT,
-  HISTORY,
   HOME,
   MENU,
-  SEARCH,
   SHOPPING_CART,
 } from "@/utils/assets/icons/icons";
 import { useRouter } from "next/navigation";

@@ -1,8 +1,8 @@
 "use client";
 
+import React from "react";
 import { WHATSAPP } from "@/utils/assets/icons/icons";
 import { PHONE_NUMBER } from "@/utils/constants/constants";
-import React from "react";
 
 const WhatsApp = () => {
   const message =

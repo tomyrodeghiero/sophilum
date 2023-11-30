@@ -3,7 +3,6 @@ import {
   IMAGE_02,
   IMAGE_03,
 } from "@/utils/assets/categories/categories";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 

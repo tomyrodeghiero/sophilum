@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import PriceSlider from "../price-slider";
 import { FILTER, SEARCH } from "@/utils/assets/icons/icons";
 import { FilterDropdown } from "../filter-dropdown";
 

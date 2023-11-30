@@ -1,7 +1,7 @@
 "use client";
 
-import { formatPriceARS } from "@/utils/functions/functions";
 import React, { useState } from "react";
+import { formatPriceARS } from "@/utils/functions/functions";
 
 const PriceSlider = ({ onFilter }: any) => {
   const min = 1000;
