@@ -65,7 +65,7 @@ const ShopPage = () => {
       const productsDB = await response.json();
 
       const filteredProducts = productsDB.products.filter(
-        (product: any) => product.username === "sophilum"
+        (product: any) => product.username !== "joyasboulevard"
       );
 
       // set the filtered products
