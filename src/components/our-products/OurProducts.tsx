@@ -51,8 +51,11 @@ const OurProducts = () => {
       }
 
       const productsDB = await response.json();
-      // Cuando se recuperan los productos, también se establece la información de paginación
-      setProducts(productsDB.products);
+      const filteredProducts = productsDB.products.filter(
+        (product: any) => product.username === "sophilum"
+      );
+      setProducts(filteredProducts);
+
       setPaginationInfo({
         currentPage: productsDB.currentPage,
         totalPages: productsDB.totalPages,

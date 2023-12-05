@@ -63,8 +63,13 @@ const ShopPage = () => {
       }
 
       const productsDB = await response.json();
-      console.log("productsDB", productsDB);
-      setProducts(productsDB.products);
+
+      const filteredProducts = productsDB.products.filter(
+        (product: any) => product.username === "sophilum"
+      );
+
+      // set the filtered products
+      setProducts(filteredProducts);
     } catch (error) {
       console.error("error", error);
       throw error;
