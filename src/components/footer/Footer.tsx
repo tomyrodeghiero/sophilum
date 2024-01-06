@@ -33,7 +33,7 @@ const Footer = () => {
           <div className="w-1/2 md:w-auto mb-8 md:mb-0">
             <p className="text-gray-500 mb-8">Ayuda</p>
             <div className="flex flex-col gap-8">
-              <Link href="/">
+              <Link href="/contact">
                 <span className="navlink">Contacto</span>
               </Link>
               <Link href="/terms-of-service">
@@ -69,7 +69,7 @@ const Footer = () => {
         <div className="mb-8">
           <p className="inline-flex flex-col md:flex-row items-start md:items-center">
             <span className="font-medium cursor-default">
-              © 2019 - 2023 Sophilum, Iluminación Creativa.
+              © 2019 - 2024 Sophilum, Iluminación Creativa.
             </span>
             <span className="md:ml-2 mt-2 md:mt-0">
               Todos los derechos reservados.
