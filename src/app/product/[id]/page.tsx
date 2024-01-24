@@ -300,6 +300,47 @@ export default function ShopPage({ params }: { params: { id: string } }) {
           </div>
         </div>
 
+        {productID.measurements && productID.measurements.length > 0 && (
+          <div className="flex flex-col gap-2">
+            <h2 className="text-[0.95rem] text-gray-500">Medida</h2>
+            <div className="flex gap-3">
+              {productID.measurements.map((measure: any) => (
+                <button
+                  key={measure._id}
+                  className={`py-2 px-3 rounded ${selectedMeasure === measure.measure
+                    ? "bg-yellow-600 text-white transition ease-in-out duration-300"
+                    : "bg-rose-300 text-black transition ease-in-out duration-300"
+                    }`}
+                  onClick={() => {
+                    setSelectedMeasure(measure.measure);
+                    setSelectedPrice(measure.price);
+                  }}
+                >
+                  {measure.measure}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {productID.colors &&
+          productID.colors[0] != "#8B4513" &&
+          productID.colors.length > 0 && (
+            <div className="flex flex-col gap-2 mt-5">
+              <h2 className="text-[0.95rem] text-gray-500">Color</h2>
+              <div className="flex gap-3 mt-2">
+                {productID.colors.map((color: any, index: number) => (
+                  <ColorCircle
+                    key={index}
+                    color={color.hex}
+                    selected={selectedColor === color}
+                    onClick={() => setSelectedColor(color)}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
         <button
           onClick={() => {
             const hasColorOptions =
@@ -314,7 +355,7 @@ export default function ShopPage({ params }: { params: { id: string } }) {
               addToCart(
                 productID._id,
                 productID.name,
-                productID.price,
+                selectedPrice,
                 productID.mainImageUrl,
                 quantity,
                 selectedMeasure,
@@ -344,7 +385,7 @@ export default function ShopPage({ params }: { params: { id: string } }) {
               );
             }
           }}
-          className={`bg-green-900 hover:bg-green-700 rounded focus:outline-none focus:ring-1 focus:ring-green-600 focus:ring-opacity-50 transition duration-300 ease-in-out transform hover:shadow-md hover:-translate-y-1 text-white py-4 w-full`}
+          className={`bg-green-900 mt-5 hover:bg-green-700 rounded focus:outline-none focus:ring-1 focus:ring-green-600 focus:ring-opacity-50 transition duration-300 ease-in-out transform hover:shadow-md hover:-translate-y-1 text-white py-4 w-full`}
         >
           Añadir al carrito
         </button>
@@ -364,9 +405,8 @@ export default function ShopPage({ params }: { params: { id: string } }) {
               <img
                 src={DROP_DOWN}
                 alt={"Drop drop"}
-                className={`h-2 transform ${
-                  descriptionOpen ? "rotate-180" : ""
-                }`}
+                className={`h-2 transform ${descriptionOpen ? "rotate-180" : ""
+                  }`}
               />
             </div>
 
@@ -395,11 +435,10 @@ export default function ShopPage({ params }: { params: { id: string } }) {
           </div>
         )}
         <div
-          className={`${
-            productID.secondaryImageUrls.length > 0
-              ? "md:w-[40%]"
-              : "md:w-[50%]"
-          }`}
+          className={`${productID.secondaryImageUrls.length > 0
+            ? "md:w-[40%]"
+            : "md:w-[50%]"
+            }`}
         >
           <img
             src={productID.mainImageUrl}
@@ -420,17 +459,16 @@ export default function ShopPage({ params }: { params: { id: string } }) {
             <FormatText text={productID.additionalInformation} />
 
             {productID.measurements && productID.measurements.length > 0 && (
-              <div className="flex flex-col gap-2">
-                <h2 className="mt-5 text-[0.95rem] text-gray-500">Medida</h2>
+              <div className="flex flex-col gap-2 mt-5">
+                <h2 className="text-[0.95rem] text-gray-500">Medida</h2>
                 <div className="flex gap-3">
                   {productID.measurements.map((measure: any) => (
                     <button
                       key={measure._id}
-                      className={`py-2 px-3 rounded ${
-                        selectedMeasure === measure.measure
-                          ? "bg-yellow-600 text-white transition ease-in-out duration-300"
-                          : "bg-rose-300 text-black transition ease-in-out duration-300"
-                      }`}
+                      className={`py-2 px-3 rounded ${selectedMeasure === measure.measure
+                        ? "bg-yellow-600 text-white transition ease-in-out duration-300"
+                        : "bg-rose-300 text-black transition ease-in-out duration-300"
+                        }`}
                       onClick={() => {
                         setSelectedMeasure(measure.measure);
                         setSelectedPrice(measure.price);
@@ -572,11 +610,10 @@ export default function ShopPage({ params }: { params: { id: string } }) {
         <div className="border-y py-8 border-gray-300 w-full">
           <div className="flex gap-14 justify-center mb-5">
             <button
-              className={`text-lg ${
-                activeTab === "description"
-                  ? "font-medium text-black"
-                  : "text-gray-500"
-              }`}
+              className={`text-lg ${activeTab === "description"
+                ? "font-medium text-black"
+                : "text-gray-500"
+                }`}
               onClick={() => setActiveTab("description")}
             >
               Descripción

@@ -180,10 +180,6 @@ const ShopPage = () => {
 
   // Calculate the total number of pages
   const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
-  console.log("products", products);
-  console.log("products.length", products.length);
-  console.log("PRODUCTS_PER_PAGE", PRODUCTS_PER_PAGE);
-  console.log("TOTAL PAGES", totalPages);
 
   return (
     <div>
@@ -243,11 +239,10 @@ const ShopPage = () => {
                     <button
                       key={page}
                       onClick={() => handlePageChange(page)}
-                      className={`px-4 py-2 mx-2 rounded ${
-                        currentPage === page
-                          ? "bg-yellow-600 text-white"
-                          : "bg-gray-200"
-                      }`}
+                      className={`px-4 py-2 mx-2 rounded ${currentPage === page
+                        ? "bg-yellow-600 text-white"
+                        : "bg-gray-200"
+                        }`}
                     >
                       {page}
                     </button>

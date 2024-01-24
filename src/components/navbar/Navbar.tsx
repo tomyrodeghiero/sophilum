@@ -73,16 +73,26 @@ export default function Navbar() {
         {!isOpen && (
           <div className="flex gap-4 items-center">
             <Link href="/cart">
-              <img className="h-5" src={SHOPPING_CART} alt="Shopping" />
+              <div className="relative">
+                <img
+                  className="h-5 cursor-pointer"
+                  src={SHOPPING_CART}
+                  alt="Shopping cart"
+                />
+                {cart.length > 0 && (
+                  <div className="absolute top-[0.6rem] left-[0.7rem] text-[0.9rem] h-5 w-5 rounded-full border border-yellow-800 bg-gray-400 flex items-center justify-center text-white shadow">
+                    {cart.length}
+                  </div>
+                )}
+              </div>
             </Link>
             <img className="h-4" src={MENU} alt="Menu" onClick={toggleMenu} />
           </div>
         )}
 
         <div
-          className={`fixed top-0 left-0 w-full h-full bg-white transition-transform transform ease-in-out duration-300 ${
-            isOpen ? "translate-y-0" : "translate-y-full"
-          } flex flex-col justify-between space-y-4 z-40 p-5 overflow-auto`}
+          className={`fixed top-0 left-0 w-full h-full bg-white transition-transform transform ease-in-out duration-300 ${isOpen ? "translate-y-0" : "translate-y-full"
+            } flex flex-col justify-between space-y-4 z-40 p-5 overflow-auto`}
         >
           <div>
             <div className="flex justify-between items-center">
