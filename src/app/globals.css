@@ -269,3 +269,12 @@ body {
     transform: rotate(360deg);
   }
 }
+
+/* Pagination scroll */
+#paginationContainer {
+  scrollbar-width: none;
+}
+
+#paginationContainer::-webkit-scrollbar {
+  display: none;
+}

@@ -250,7 +250,7 @@ const ShopPage = () => {
                     <Image src={DROP_RIGHT} alt="Izquierda" width={8} height={8} className="transform rotate-180" />
                   </button>
 
-                  <div className="flex overflow-x-auto scroll-smooth" id="paginationContainer">
+                  <div className="flex overflow-x-auto scroll-smooth" id="paginationContainer" style={{ overflowX: 'auto', scrollbarWidth: 'none' }}>
                     {Array.from({ length: totalPages }, (_, i) => i + 1).map(
                       (page) => (
                         <button
