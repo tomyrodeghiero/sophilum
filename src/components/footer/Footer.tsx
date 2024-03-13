@@ -1,4 +1,4 @@
-import { ARROW_RIGHT, FACEBOOK, INSTAGRAM } from "@/utils/assets/icons/icons";
+import { ARROW, FACEBOOK, INSTAGRAM } from "@/utils/assets/icons/icons";
 import React from "react";
 import Link from "next/link";
 import { FACEBOOK_URL, INSTAGRAM_URL } from "@/utils/constants/constants";
@@ -52,7 +52,7 @@ const Footer = () => {
               Últimas Novedades y Ofertas Exclusivas
             </p>
 
-            <img className="h-2" src={ARROW_RIGHT} alt="Icon 2" />
+            <img className="h-2" src={ARROW} alt="Icon 2" />
           </Link>
           <div className="flex gap-4 justify-center md:justify-end">
             <Link href={FACEBOOK_URL}>

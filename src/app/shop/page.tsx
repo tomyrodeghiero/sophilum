@@ -16,7 +16,7 @@ import SkeletonCard from "@/components/skeleton-card";
 import { getMinPrice } from "@/utils/functions/functions";
 
 const ShopPage = () => {
-  const PRODUCTS_PER_PAGE = 9; // Cambia esto según tus necesidades
+  const PRODUCTS_PER_PAGE = 9;
 
   const searchParams = useSearchParams();
   const searchQueryParam = searchParams.get("search");
@@ -34,6 +34,14 @@ const ShopPage = () => {
   const [sortByCategory, setSortByCategory] = useState(
     categoryQueryParam || ""
   );
+
+  function scrollPages(direction: any) {
+    const container: any = document.getElementById('paginationContainer');
+    const scrollAmount = 100;
+    const scrollDirection = direction === 'left' ? -scrollAmount : scrollAmount;
+
+    container.scrollBy({ left: scrollDirection, behavior: 'smooth' });
+  }
 
   // Function to fetch products
   async function getProducts(): Promise<any> {
@@ -231,23 +239,39 @@ const ShopPage = () => {
                 products={filteredProducts}
               />
             )}
-
             {totalPages > 1 && (
-              <div className="flex justify-center my-8 lg:mb-0 w-full">
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                  (page) => (
-                    <button
-                      key={page}
-                      onClick={() => handlePageChange(page)}
-                      className={`px-4 py-2 mx-2 rounded ${currentPage === page
-                        ? "bg-yellow-600 text-white"
-                        : "bg-gray-200"
-                        }`}
-                    >
-                      {page}
-                    </button>
-                  )
-                )}
+              <div className="flex justify-center items-center my-8 lg:mb-0">
+                <div className="flex w-full max-w-lg mx-auto justify-between items-center">
+                  <button
+                    onClick={() => scrollPages('left')}
+                    className="flex items-center justify-center w-10 h-10 bg-gray-400 hover:bg-yellow-400 text-white rounded"
+                    aria-label="Desplazar izquierda"
+                  >
+                    <Image src={DROP_RIGHT} alt="Izquierda" width={8} height={8} className="transform rotate-180" />
+                  </button>
+
+                  <div className="flex overflow-x-auto scroll-smooth" id="paginationContainer">
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                      (page) => (
+                        <button
+                          key={page}
+                          onClick={() => handlePageChange(page)}
+                          className={`px-4 py-2 mx-1 rounded ${currentPage === page ? "bg-yellow-600 text-white" : "bg-gray-200 hover:bg-gray-300"}`}
+                        >
+                          {page}
+                        </button>
+                      )
+                    )}
+                  </div>
+
+                  <button
+                    onClick={() => scrollPages('right')}
+                    className="flex items-center justify-center w-10 h-10 bg-gray-400 hover:bg-yellow-400 text-white rounded"
+                    aria-label="Desplazar derecha"
+                  >
+                    <Image src={DROP_RIGHT} alt="Derecha" width={8} height={8} />
+                  </button>
+                </div>
               </div>
             )}
           </div>
